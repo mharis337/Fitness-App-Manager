@@ -29,8 +29,10 @@ public class SignUpActivity extends AppCompatActivity {
         uname = findViewById(R.id.username1);
         pwd = findViewById(R.id.passwordSignupInput);
         isInstructor = findViewById(R.id.instructor);
-        String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+//        String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
         String namReg = "[A-Z][A-Za-z ]{2,}"; // User name must start with a Capital letter
+        String userNamReg = "[A-Z][A-Za-z0-9 ]{2,}"; // User name must start with a Capital letter
+
 
 
         signup.setOnClickListener(new View.OnClickListener() {
@@ -55,17 +57,17 @@ public class SignUpActivity extends AppCompatActivity {
                 else if(pwd.getText().toString().equals("")){
                     Toast.makeText(SignUpActivity.this, "You must enter a password!" , Toast.LENGTH_SHORT).show();
                 }
-                else if(!uname.getText().toString().trim().matches(emailPattern)){
-                    Toast.makeText(SignUpActivity.this, "You must enter a valid Email adress" , Toast.LENGTH_SHORT).show();
+                else if(!uname.getText().toString().trim().matches(userNamReg)){
+                    Toast.makeText(SignUpActivity.this, "Username must be 3 char's long and start with a capital letter" , Toast.LENGTH_SHORT).show();
                 }
                 else if(!fname.getText().toString().trim().matches(namReg)){
-                    Toast.makeText(SignUpActivity.this, "Name must start with a capital letter" , Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignUpActivity.this, "First name must be 3 char's long and start with a capital letter" , Toast.LENGTH_SHORT).show();
                 }
                 else if(!lname.getText().toString().trim().matches(namReg)){
-                    Toast.makeText(SignUpActivity.this, "Surname must start a Capital letter" , Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignUpActivity.this, "Surname must be 3 char's long and start with a capital letter" , Toast.LENGTH_SHORT).show();
                 }
                 else if(!passValidates(pwd.getText().toString())){
-                    Toast.makeText(SignUpActivity.this, "Password must be at least 6 char long and have a special character" , Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignUpActivity.this, "Password must be at least 3 char's long, includes a special character and a number" , Toast.LENGTH_SHORT).show();
                 }
                 else {
                     UserAccounts user = new UserAccounts(fname.getText().toString(), lname.getText().toString(), uname.getText().toString(), pwd.getText().toString(), accountType);
@@ -88,6 +90,8 @@ public class SignUpActivity extends AppCompatActivity {
             if( password.matches(".*[a-z].*") )
                 count ++;
             if( password.matches(".*[A-Z].*") )
+                count ++;
+            if( password.matches(".*[0-9].*") )
                 count ++;
             if( password.matches(".^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()–[{}]:;',?/*~$^+=<>]).{8,20}$") )
                 count ++;

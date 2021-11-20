@@ -21,7 +21,6 @@ public class addingClass extends AppCompatActivity {
     EditText diff, day, time, cap;
     TextView availableClass;
 
-
     ListView myClasses;
     ArrayList<String> classTypes;
     ArrayAdapter adapter;
@@ -64,7 +63,6 @@ public class addingClass extends AppCompatActivity {
 
         myClasses.setAdapter(adapter);
         databaseHelper.close();
-
     }
 
     public void addClass(View view) {
