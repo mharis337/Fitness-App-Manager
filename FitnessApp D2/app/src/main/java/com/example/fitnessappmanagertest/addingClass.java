@@ -69,6 +69,7 @@ public class addingClass extends AppCompatActivity {
 
     public void addClass(View view) {
         Boolean playSameDay = false;
+        Boolean isInt = true;
         Intent intent = getIntent();
         String userName = intent.getStringExtra("UserRole");
         classDatabase db = new classDatabase(addingClass.this);
@@ -88,14 +89,22 @@ public class addingClass extends AppCompatActivity {
                     playSameDay = true;
                 }
             }
+
+            for(int l = 0; l < cap.getText().toString().length(); l++){
+                if(!d.contains(Character.toString((cap.getText().toString().charAt(l))))){
+                    isInt = false;
+                }
+
+            }
+
             if (!Pattern.compile(Pattern.quote(day.getText().toString()), Pattern.CASE_INSENSITIVE).matcher(a).find()){
                 Toast.makeText(addingClass.this, " Invalid Day Options: Monday Tuesday Wednesday Thursday Friday Saturday Sunday", Toast.LENGTH_SHORT).show();
             }else if (!Pattern.compile(Pattern.quote(time.getText().toString()), Pattern.CASE_INSENSITIVE).matcher(c).find()){
                 Toast.makeText(addingClass.this, " Invalid Time Options: 1:00 2:00 3:00 4:00 5:00 6:00 7:00 8:00 9:00 10:00 11:00 12:00 13:00 14:00 15:00 16:00 17:00 18:00 19:00 20:00 21:00 22:00 23:00 24:00", Toast.LENGTH_SHORT).show();
             } else if(!Pattern.compile(Pattern.quote(diff.getText().toString()), Pattern.CASE_INSENSITIVE).matcher(b).find()){
                 Toast.makeText(addingClass.this, " Invalid Difficulty Options: Hard Medium Easy", Toast.LENGTH_SHORT).show();
-            }else if(!d.contains(cap.getText().toString())){
-                Toast.makeText(addingClass.this, " Invalid Capacity Options: 0123456789", Toast.LENGTH_SHORT).show();
+            }else if(!isInt){
+                Toast.makeText(addingClass.this, " Invalid Capacity Options: Integer", Toast.LENGTH_SHORT).show();
             }else{
             if(!playSameDay) {
                 gymClass newClass = new gymClass(availableClass.getText().toString(), userName, diff.getText().toString(), databaseHelper.getClassDesc(availableClass.getText().toString()), sDay, time.getText().toString(), cap.getText().toString());
@@ -111,8 +120,8 @@ public class addingClass extends AppCompatActivity {
             }
             }
         }
-        db.close();
-        databaseHelper.close();
+        //db.close();
+        //databaseHelper.close();
         Intent intentmyClassList = new Intent(addingClass.this, myClassInstructor.class);
         intentmyClassList.putExtra("UserRole", userName);
         startActivity(intentmyClassList);
