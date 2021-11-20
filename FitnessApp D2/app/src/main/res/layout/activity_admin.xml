@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AdminActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/welcome2"
+                android:layout_width="84dp"
+                android:layout_height="45dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="17dp"
+                android:backgroundTint="#3F51B5"
+                android:gravity="center"
+                android:text="Admin"
+                android:textSize="24sp"
+                android:textStyle="bold|italic" />
+
+            <TextView
+                android:id="@+id/welcome"
+                android:layout_width="222dp"
+                android:layout_height="63dp"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:gravity="center|center_horizontal|center_vertical"
+                android:text="Set Class Type (if class exists, then edits)"
+                android:textSize="20dp" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/set_name"
+                android:layout_width="360dp"
+                android:layout_height="70dp"
+                android:layout_gravity="center_horizontal"
+                android:hint="Class Type Name" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/set_description"
+                android:layout_width="360dp"
+                android:layout_height="70dp"
+                android:layout_gravity="center_horizontal"
+                android:hint="Description" />
+
+            <Button
+                android:id="@+id/btnSet"
+                android:layout_width="140dp"
+                android:layout_height="55dp"
+                android:layout_gravity="center"
+                android:backgroundTint="#3F51B5"
+                android:onClick="setClassType"
+                android:text="Set" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="160dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="30dp"
+                android:gravity="center"
+                android:text="Delete Class Type"
+                android:textSize="20sp" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/delete_name"
+                android:layout_width="360dp"
+                android:layout_height="70dp"
+                android:layout_gravity="center"
+                android:hint="Class Type Name" />
+
+            <Button
+                android:id="@+id/btnDelete"
+                android:layout_width="140dp"
+                android:layout_height="55dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:backgroundTint="#3F51B5"
+                android:onClick="deleteClassType"
+                android:text="Delete" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="160dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="40dp"
+                android:gravity="center"
+                android:text="Delete User"
+                android:textSize="20sp" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/delete_user"
+                android:layout_width="360dp"
+                android:layout_height="70dp"
+                android:layout_gravity="center"
+                android:hint="Username" />
+
+            <Button
+                android:id="@+id/btnDelete2"
+                android:layout_width="140dp"
+                android:layout_height="55dp"
+                android:layout_gravity="center"
+                android:backgroundTint="#3F51B5"
+                android:onClick="deleteUser"
+                android:text="Delete" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
