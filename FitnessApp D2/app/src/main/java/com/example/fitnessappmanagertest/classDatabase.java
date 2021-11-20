@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.provider.ContactsContract;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
@@ -117,7 +118,7 @@ public class classDatabase extends SQLiteOpenHelper {
 
         cursor.moveToFirst();
         for(int i = 0; i < cursor.getCount(); i++){
-            classNames[i] = "Class: " + cursor.getString(1) + " Capacity: " + cursor.getString(7);
+            classNames[i] = "Class: " + cursor.getString(1) + " | Instructor: " + cursor.getString(2) + " |     Cap:" + cursor.getString(7);
             cursor.moveToNext();
         }
         cursor.close();
