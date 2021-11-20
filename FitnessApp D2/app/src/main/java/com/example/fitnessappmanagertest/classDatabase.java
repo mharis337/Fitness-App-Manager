@@ -40,6 +40,22 @@ public class classDatabase extends SQLiteOpenHelper {
 
     }
 
+    public boolean isEmpty(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT * FROM " + user_table;
+        Cursor cursor = db.rawQuery(query, null);
+
+
+        if(cursor.getCount() > 0){
+            return false;
+        }
+
+        cursor.close();
+        db.close();
+
+        return true;
+    }
+
     public boolean addClass(gymClass name){
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -82,7 +98,6 @@ public class classDatabase extends SQLiteOpenHelper {
         return classNames;
     }*/
     public String[] specificSearch(String instructor, String className){
-        ContentValues cv = new ContentValues();
         String query = "";
         if(!instructor.isEmpty() && !className.isEmpty()) {
             query = "SELECT * FROM " + user_table + " WHERE " + COLUMN_CLASS_NAME + " ='" + className + "'" + " AND " + COLUMN_INSTRUCTOR_NAME + "='" + instructor + "'";
@@ -118,7 +133,6 @@ public class classDatabase extends SQLiteOpenHelper {
 
 
     public boolean classFound(String name, String day){
-        ContentValues cv = new ContentValues();
         String cName;
 
         String query = "SELECT * FROM " + user_table + " WHERE " + COLUMN_CLASS_NAME + "='"+ name +"'" + " AND " + COLUMN_DAY + "='" + day + "'";
@@ -142,9 +156,6 @@ public class classDatabase extends SQLiteOpenHelper {
     }
 
     public boolean searchClassByID(int id){
-        ContentValues cv = new ContentValues();
-        String cName;
-
         String query = "SELECT * FROM " + user_table + " WHERE " + COLUMN_CLASS_ID + "='"+ Integer.toString(id) +"'";
         SQLiteDatabase db = this.getReadableDatabase();
 

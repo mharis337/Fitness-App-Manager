@@ -46,7 +46,7 @@ public class myClassInstructor extends AppCompatActivity {
 
         //Toast.makeText(myClassInstructor.this, ""+databaseHelper.specificSearch(userName, "").length, Toast.LENGTH_SHORT).show();
 
-        if(databaseHelper.specificSearch(userName, "").length > 0) {
+        if(!databaseHelper.isEmpty()) {
             listMyClasses = new ArrayList<>();
 
             for (String i : databaseHelper.specificSearch(userName, "")) {

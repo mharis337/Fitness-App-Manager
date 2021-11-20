@@ -54,7 +54,7 @@ public class viewAllInstructor extends AppCompatActivity {
     private void viewData() {
         classDatabase databaseHelper = new classDatabase(viewAllInstructor.this);
         //Toast.makeText(viewAllInstructor.this, ""+databaseHelper.specificSearch("", "").length, Toast.LENGTH_SHORT).show();
-        if(databaseHelper.specificSearch("", "").length > 0) {
+        if(!databaseHelper.isEmpty()) {
             listClasses = new ArrayList<>();
             for (String i : databaseHelper.specificSearch(instructorName.getText().toString(), className.getText().toString())) {
                 listClasses.add(i);

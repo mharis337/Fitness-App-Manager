@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
     Button btnSignUp;
 //    Button btnLogIn = (Button) findViewById(R.id.btnLogIn);
     DatabaseHelper databaseHelper = new DatabaseHelper(MainActivity.this);
-    classDatabase classHelper = new classDatabase(MainActivity.this);
+    //classDatabase classHelper = new classDatabase(MainActivity.this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,9 +24,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         UserAccounts admin = new UserAccounts("Admin", "Admin","admin", "admin123", "admin");
-        gymClass yoga = new gymClass("Yoga", "This is a yoga class");
+        //gymClass yoga = new gymClass("Yoga", "This is a yoga class");
 
-        classHelper.addClass(yoga);
+        //classHelper.addClass(yoga);
         databaseHelper.addUser(admin);
     }
 
