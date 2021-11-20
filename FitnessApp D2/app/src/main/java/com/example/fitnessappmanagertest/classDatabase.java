@@ -132,26 +132,28 @@ public class classDatabase extends SQLiteOpenHelper {
     }
 
 
-    public boolean classFound(String name, String day){
-        String cName;
+    public String[] classOnThisDay(String day){
+        String[] cName;
 
-        String query = "SELECT * FROM " + user_table + " WHERE " + COLUMN_CLASS_NAME + "='"+ name +"'" + " AND " + COLUMN_DAY + "='" + day + "'";
+        String query = "SELECT * FROM " + user_table + " WHERE " + COLUMN_DAY + "='"+ day +"'";
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.rawQuery(query, null);
 
+        cursor.moveToFirst();
 
-        while(cursor.moveToFirst()) {
-            cName = cursor.getString(0);
-            if(name.equals(cName)){
-                return true;
-            }
+        cName = new String[cursor.getCount()];
+        for(int i = 0; i < cursor.getCount(); i++){
+            cName[i] = cursor.getString(1);
+            cursor.moveToNext();
         }
+
+
 
         cursor.close();
         db.close();
 
-        return false;
+        return cName;
 
     }
 
