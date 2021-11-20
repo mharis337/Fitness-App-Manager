@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.regex.Pattern;
 
 
 public class addingClass extends AppCompatActivity {
@@ -77,16 +78,28 @@ public class addingClass extends AppCompatActivity {
         }else if(db.classFound(availableClass.getText().toString(), day.getText().toString())) {
             Toast.makeText(addingClass.this, " Same class is booked for this day!", Toast.LENGTH_SHORT).show();
         } else{
-            Toast.makeText(addingClass.this, "FINISHED", Toast.LENGTH_SHORT).show();
-            //Toast.makeText(addingClass.this, String.valueOf(db.classFound(availableClass.getText().toString(), day.getText().toString())), Toast.LENGTH_SHORT).show();
-            //Toast.makeText(addingClass.this, " Adding Class", Toast.LENGTH_SHORT).show();
-            gymClass newClass = new gymClass(availableClass.getText().toString(), userName, diff.getText().toString(), databaseHelper.getClassDesc(availableClass.getText().toString()), day.getText().toString(), time.getText().toString(), cap.getText().toString());
+            String a = "Monday Tuesday Wednesday Thursday Friday Saturday Sunday";
+            String b = "Hard Medium Easy";
+            String c = "1:00 2:00 3:00 4:00 5:00 6:00 7:00 8:00 9:00 10:00 11:00 12:00 13:00 14:00 15:00 16:00 17:00 18:00 19:00 20:00 21:00 22:00 23:00 24:00";
+            String d = "12334567890";
 
-            while(db.searchClassByID(newClass.getClassID())){
-                newClass.setClassID(ThreadLocalRandom.current().nextInt(0, 10000));
+            if (!Pattern.compile(Pattern.quote(day.getText().toString()), Pattern.CASE_INSENSITIVE).matcher(a).find()){
+                Toast.makeText(addingClass.this, " Invalid Day Options: Monday Tuesday Wednesday Thursday Friday Saturday Sunday", Toast.LENGTH_SHORT).show();
+            }else if (!Pattern.compile(Pattern.quote(time.getText().toString()), Pattern.CASE_INSENSITIVE).matcher(c).find()){
+                Toast.makeText(addingClass.this, " Invalid Time Options: 1:00 2:00 3:00 4:00 5:00 6:00 7:00 8:00 9:00 10:00 11:00 12:00 13:00 14:00 15:00 16:00 17:00 18:00 19:00 20:00 21:00 22:00 23:00 24:00", Toast.LENGTH_SHORT).show();
+            } else if(!Pattern.compile(Pattern.quote(diff.getText().toString()), Pattern.CASE_INSENSITIVE).matcher(b).find()){
+                Toast.makeText(addingClass.this, " Invalid Difficulty Options: Hard Medium Easy", Toast.LENGTH_SHORT).show();
+            }else if(!d.contains(cap.getText().toString())){
+                Toast.makeText(addingClass.this, " Invalid Capacity Options: 0123456789", Toast.LENGTH_SHORT).show();
+            }else{
+                gymClass newClass = new gymClass(availableClass.getText().toString(), userName, diff.getText().toString(), databaseHelper.getClassDesc(availableClass.getText().toString()), day.getText().toString(), time.getText().toString(), cap.getText().toString());
+
+                while (db.searchClassByID(newClass.getClassID())) {
+                    newClass.setClassID(ThreadLocalRandom.current().nextInt(0, 10000));
+                }
+                System.out.println(newClass.toString());
+                db.addClass(newClass);
             }
-            System.out.println(newClass.toString());
-            db.addClass(newClass);
         }
 
         Intent intentmyClassList = new Intent(addingClass.this, myClassInstructor.class);
