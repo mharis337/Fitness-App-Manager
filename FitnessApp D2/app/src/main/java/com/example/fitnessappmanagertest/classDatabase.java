@@ -10,6 +10,8 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 
+import java.util.ArrayList;
+
 public class classDatabase extends SQLiteOpenHelper {
 
     public static final String user_table = "CLASS_TABLE";
@@ -98,6 +100,46 @@ public class classDatabase extends SQLiteOpenHelper {
 
         return classNames;
     }*/
+
+    public ArrayList<String[]> getClasses(String instructor, String className){
+        String query = "";
+        if(!instructor.isEmpty() && !className.isEmpty()) {
+            query = "SELECT * FROM " + user_table + " WHERE " + COLUMN_CLASS_NAME + " ='" + className + "'" + " AND " + COLUMN_INSTRUCTOR_NAME + "='" + instructor + "'";
+        }
+        else if(instructor.isEmpty() && !className.isEmpty()){
+            query = "SELECT * FROM " + user_table + " WHERE " + COLUMN_CLASS_NAME + " ='" + className + "'";
+        }
+        else if(!instructor.isEmpty() && className.isEmpty()){
+            query = "SELECT * FROM " + user_table + " WHERE " + COLUMN_INSTRUCTOR_NAME + " ='" + instructor + "'";
+        }
+        else{
+            query = "SELECT * FROM " + user_table;
+        }
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        //String[][] classNames = new String[cursor.getCount()][4];
+        ArrayList<String[]> classNames = new ArrayList<String[]>();
+
+        cursor.moveToFirst();
+        for(int i = 0; i < cursor.getCount(); i++){
+            //id, Class name, instructor name, Cap
+            classNames.add(new String[] {cursor.getString(0),
+                    cursor.getString(1), cursor.getString(2),
+                    cursor.getString(7)});
+
+            cursor.moveToNext();
+        }
+        cursor.close();
+        db.close();
+
+        return classNames;
+    }
+
+    public boolean deleteClass(String id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.delete(user_table, COLUMN_CLASS_ID + "= '" + id + "'",null) > 0;
+    }
+
     public String[] specificSearch(String instructor, String className){
         String query = "";
         if(!instructor.isEmpty() && !className.isEmpty()) {
@@ -118,7 +160,11 @@ public class classDatabase extends SQLiteOpenHelper {
 
         cursor.moveToFirst();
         for(int i = 0; i < cursor.getCount(); i++){
-            classNames[i] = "Class: " + cursor.getString(1) + " | Instructor: " + cursor.getString(2) + " |     Cap:" + cursor.getString(7);
+            classNames[i] = "Class: "
+                    + cursor.getString(1)
+                    + " | Instructor: " + cursor.getString(2)
+                    + " |     Cap:" + cursor.getString(7);
+
             cursor.moveToNext();
         }
         cursor.close();
@@ -127,10 +173,7 @@ public class classDatabase extends SQLiteOpenHelper {
         return classNames;
     }
 
-    public boolean deleteClass(String id) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        return db.delete(user_table, COLUMN_CLASS_ID + "= ?", new String[]{id}) > 0;
-    }
+
 
 
     public String[] classOnThisDay(String day){

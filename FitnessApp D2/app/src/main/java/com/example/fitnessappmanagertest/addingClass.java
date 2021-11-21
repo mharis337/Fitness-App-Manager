@@ -21,7 +21,6 @@ public class addingClass extends AppCompatActivity {
     EditText diff, day, time, cap;
     TextView availableClass;
 
-
     ListView myClasses;
     ArrayList<String> classTypes;
     ArrayAdapter adapter;
@@ -94,7 +93,6 @@ public class addingClass extends AppCompatActivity {
                 if(!d.contains(Character.toString((cap.getText().toString().charAt(l))))){
                     isInt = false;
                 }
-
             }
 
             if (!Pattern.compile(Pattern.quote(day.getText().toString()), Pattern.CASE_INSENSITIVE).matcher(a).find()){
