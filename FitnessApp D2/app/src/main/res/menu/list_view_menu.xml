@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/viewData"
+        android:title="View class" />
+
+    <item
+        android:id="@+id/editDifficulty"
+        android:title="Edit difficulty" />
+
+    <item
+        android:id="@+id/editDay"
+        android:title="Edit day" />
+
+    <item
+        android:id="@+id/editHours"
+        android:title="Edit hours" />
+
+    <item
+        android:id="@+id/editCap"
+        android:title="Edit capacity" />
+
+    <item
+        android:id="@+id/deleteItem"
+        android:title="Delete class" />
+
+</menu>

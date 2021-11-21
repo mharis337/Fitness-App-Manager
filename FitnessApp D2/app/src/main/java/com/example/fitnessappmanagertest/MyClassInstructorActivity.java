@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -66,5 +67,40 @@ public class MyClassInstructorActivity extends AppCompatActivity {
         Intent intentmyClassList = new Intent(MyClassInstructorActivity.this, AddingClassActivity.class);
         intentmyClassList.putExtra("UserRole", userName);
         startActivity(intentmyClassList);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        MyDBHandler dbHandler = new MyDBHandler(this);
+        String itemName = productlist.getItemAtPosition(info.position).toString();
+
+
+        switch (item.getItemId()) {
+            case R.id.viewData:
+                Product product = dbHandler.findProduct(itemName);
+
+                idView.setText(String.valueOf(product.get_id()));
+                productBox.setText(String.valueOf(product.get_productname()));
+                priceBox.setText(String.valueOf(product.get_price()));
+
+                Toast.makeText(this, "Item: "+product.get_productname()+
+                                ", Price: "+product.get_price()+"",
+                        Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.deleteItem:
+                dbHandler.deleteProduct(itemName);
+                listItem.clear();
+                viewData();
+
+                idView.setText("Record Deleted");
+                Toast.makeText(this, "Item deleted!", Toast.LENGTH_SHORT).show();
+                productBox.setText("");
+                priceBox.setText("");
+
+                return true;
+            default:
+                return super.onContextItemSelected(item);
+        }
     }
 }
