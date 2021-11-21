@@ -20,6 +20,7 @@
         android:layout_width="58dp"
         android:layout_height="55dp"
         android:layout_marginStart="12dp"
+        android:backgroundTint="#3F51B5"
         android:text="X"
         app:layout_constraintStart_toEndOf="@+id/text"
         app:layout_constraintTop_toTopOf="parent" />

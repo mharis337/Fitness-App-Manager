@@ -37,18 +37,18 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="5dp"
             android:layout_weight="1"
-            android:text="Search"
+            android:backgroundTint="#3F51B5"
             android:onClick="startSearch"
-            />
+            android:text="Search" />
 
         <Button
             android:id="@+id/viewAll"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="View All"
+            android:backgroundTint="#3F51B5"
             android:onClick="viewAll"
-            />
+            android:text="View All" />
 
 
     </LinearLayout>
