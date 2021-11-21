@@ -14,7 +14,7 @@ public class EditingClassActivity extends AddingClassActivity {
     }
 
     protected void viewData() {
-       // super.viewData();
+        super.viewData();
 
         Intent intent = getIntent();
         /*intentmyClassList.putExtra("class_id", list.get(position)[0]);
