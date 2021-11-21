@@ -175,16 +175,16 @@ public class AddingClassActivity extends AppCompatActivity {
     }
 
     private void viewData() {
-        UserDatabaseHelper userDatabaseHelper = new UserDatabaseHelper(AddingClassActivity.this);
+        ClassTypesDatabase cdb = new ClassTypesDatabase(AddingClassActivity.this);
 
         classTypes = new ArrayList<>();
-        for(String type : userDatabaseHelper.getClassType()){
+        for(String type : cdb.getClassType()){
             classTypes.add(type);
         }
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, classTypes);
 
         myClasses.setAdapter(adapter);
-        userDatabaseHelper.close();
+        cdb.close();
     }
 
     public void addClass(View view) {
@@ -194,6 +194,8 @@ public class AddingClassActivity extends AppCompatActivity {
         String userName = intent.getStringExtra("UserRole");
         ClassDatabaseHelper db = new ClassDatabaseHelper(AddingClassActivity.this);
         UserDatabaseHelper userDatabaseHelper = new UserDatabaseHelper(AddingClassActivity.this);
+        ClassTypesDatabase cdb = new ClassTypesDatabase(AddingClassActivity.this);
+
         //Toast.makeText(addingClass.this, String.valueOf(db.classFound(availableClass.getText().toString(), day.getText().toString())), Toast.LENGTH_SHORT).show();
 //        if(diff.getText().toString().isEmpty() || day.getText().toString().isEmpty() || time.getText().toString().isEmpty() || cap.getText().toString().isEmpty()) {
 //            Toast.makeText(AddingClassActivity.this, " One of the fields was left empty!", Toast.LENGTH_SHORT).show();
@@ -232,7 +234,7 @@ public class AddingClassActivity extends AppCompatActivity {
             } else {
                 if(!playSameDay) {
                     GymClass newClass = new GymClass(selectedClass.getText().toString(), userName, selectedDifficulty,
-                            userDatabaseHelper.getClassDesc(selectedClass.getText().toString()), selectedDay, selectedTime,
+                            cdb.getClassDesc(selectedClass.getText().toString()), selectedDay, selectedTime,
                             cap.getText().toString());
 
                     while (db.searchClassByID(newClass.getClassID())) {
