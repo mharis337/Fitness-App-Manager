@@ -174,7 +174,7 @@ public class AddingClassActivity extends AppCompatActivity {
 
     }
 
-    private void viewData() {
+    protected void viewData() {
         ClassTypesDatabase cdb = new ClassTypesDatabase(AddingClassActivity.this);
 
         classTypes = new ArrayList<>();
@@ -187,7 +187,11 @@ public class AddingClassActivity extends AppCompatActivity {
         cdb.close();
     }
 
-    public void addClass(View view) {
+    public boolean addClass(View view) {
+        return this.addClass(view, true);
+    }
+
+    public boolean addClass(View view, Boolean redirect) {
         Boolean playSameDay = false;
         Boolean isInt = true;
         Intent intent = getIntent();
@@ -202,8 +206,10 @@ public class AddingClassActivity extends AppCompatActivity {
 //        }
         if (!(choseDifficulty || choseDay || ChoseTime)) {
             Toast.makeText(AddingClassActivity.this, "Difficulty, day or time have not been picked.", Toast.LENGTH_SHORT).show();
+            return false;
         } else if (selectedClass.getText().toString().equals("Not Assigned")) {
             Toast.makeText(AddingClassActivity.this, "Class type have not been selected.", Toast.LENGTH_SHORT).show();
+            return false;
         } else{
 //            String a = "Monday Tuesday Wednesday Thursday Friday Saturday Sunday";
 //            String b = "Hard Medium Easy";
@@ -231,6 +237,7 @@ public class AddingClassActivity extends AppCompatActivity {
 //            }
             if(cap.getText().toString().equals("")){
                 Toast.makeText(AddingClassActivity.this, " Please input the capacity of your class.", Toast.LENGTH_SHORT).show();
+                return false;
             } else {
                 if(!playSameDay) {
                     GymClass newClass = new GymClass(selectedClass.getText().toString(), userName, selectedDifficulty,
@@ -245,11 +252,22 @@ public class AddingClassActivity extends AppCompatActivity {
                     db.addClass(newClass);
                 }else{
                     Toast.makeText(AddingClassActivity.this, " You already have a class of this type on this day!", Toast.LENGTH_SHORT).show();
-            }
+                    return false;
+                }
             }
         }
         //db.close();
         //databaseHelper.close();
+        if(redirect) {
+            this.redirect();
+        }
+        return true;
+    }
+
+    public void redirect() {
+        Intent intent = getIntent();
+        String userName = intent.getStringExtra("UserRole");
+
         Intent intentmyClassList = new Intent(AddingClassActivity.this, MyClassInstructorActivity.class);
         intentmyClassList.putExtra("UserRole", userName);
         startActivity(intentmyClassList);

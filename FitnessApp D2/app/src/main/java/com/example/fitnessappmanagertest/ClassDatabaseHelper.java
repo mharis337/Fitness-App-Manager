@@ -82,6 +82,31 @@ public class ClassDatabaseHelper extends SQLiteOpenHelper {
         }
 
     }
+    //Create classtype if it doesnt exist, otherwise edit.
+    public boolean editClass(GymClass name) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        cv.put(COLUMN_CLASS_ID, name.getClassID());
+        cv.put(COLUMN_INSTRUCTOR_NAME, name.getInstructor());
+        cv.put(COLUMN_DESC, name.getDesc());
+        cv.put(COLUMN_DIFF, name.getDifficulty());
+        cv.put(COLUMN_CLASS_NAME, name.getName());
+        cv.put(COLUMN_CAPACITY, name.getCapacity());
+        cv.put(COLUMN_DAY, name.getDay());
+        cv.put(COLUMN_HOUR, name.getHours());
+
+       /* long insert = db.insert(user_table, null, cv);
+
+        if(insert == -1){
+            return false;
+        }
+        else{
+            return true;
+        }*/
+
+        return (db.update(user_table, cv, COLUMN_CLASS_ID + " = ?", new String[]{ String.valueOf(name.getClassID())}) != -1);
+    }
 
     /*public String[] allClasses(){
         ContentValues cv = new ContentValues();
@@ -102,6 +127,12 @@ public class ClassDatabaseHelper extends SQLiteOpenHelper {
 
     public ArrayList<String[]> getClasses(String instructor, String className){
         String query = "";
+        if(className == null) {
+            className = "";
+        }
+        if(instructor == null) {
+            instructor = "";
+        }
         if(!instructor.isEmpty() && !className.isEmpty()) {
             query = "SELECT * FROM " + user_table + " WHERE " + COLUMN_CLASS_NAME + " ='" + className + "'" + " AND " + COLUMN_INSTRUCTOR_NAME + "='" + instructor + "'";
         }
@@ -122,9 +153,16 @@ public class ClassDatabaseHelper extends SQLiteOpenHelper {
         cursor.moveToFirst();
         for(int i = 0; i < cursor.getCount(); i++){
             //id, Class name, instructor name, Cap
-            classNames.add(new String[] {cursor.getString(0),
+            String[] str = new String[8];
+
+            /*classNames.add(new String[] {cursor.getString(0),
                     cursor.getString(1), cursor.getString(2),
-                    cursor.getString(7)});
+                    cursor.getString(7)});*/
+            for(int j = 0; j < str.length; j++) {
+                str[j] = cursor.getString(j);
+            }
+
+            classNames.add(str);
 
             cursor.moveToNext();
         }
@@ -238,5 +276,7 @@ public class ClassDatabaseHelper extends SQLiteOpenHelper {
         return false;
 
     }
+
+
 
 }

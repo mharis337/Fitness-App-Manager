@@ -20,8 +20,6 @@ public class MyClassInstructorActivity extends AppCompatActivity {
     //ArrayAdapter adapter;
     ClassAdapter adapter;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

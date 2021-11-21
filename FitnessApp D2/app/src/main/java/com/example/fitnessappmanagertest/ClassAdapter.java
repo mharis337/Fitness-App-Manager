@@ -1,6 +1,7 @@
 package com.example.fitnessappmanagertest;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,29 +65,25 @@ public class ClassAdapter extends BaseAdapter implements ListAdapter {
 
             }
         });
-/*
-        //Handle TextView and display string from your list
-        TextView tvContact= (TextView)view.findViewById(R.id.tvContact);
-        tvContact.setText(list.get(position));
 
-        //Handle buttons and add onClickListeners
-        Button callbtn= (Button)view.findViewById(R.id.btn);
+        Button button_edit = (Button)view.findViewById(R.id.button_edit);
 
-        callbtn.setOnClickListener(new View.OnClickListener(){
+        button_edit.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                //do something
+                Intent intentmyClassList = new Intent(context, EditingClassActivity.class);
+                /*intentmyClassList.putExtra("class_id", list.get(position)[0]);
+                intentmyClassList.putExtra("diff", list.get(position)[3]);
+                intentmyClassList.putExtra("selectedClass", list.get(position)[4]);
+                intentmyClassList.putExtra("day", list.get(position)[5]);
+                intentmyClassList.putExtra("time", list.get(position)[6]);
+                intentmyClassList.putExtra("cap", list.get(position)[7]);*/
+                intentmyClassList.putExtra("data", list.get(position));
+
+                context.startActivity(intentmyClassList);
 
             }
         });
-        addBtn.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                //do something
-                notifyDataSetChanged();
-            .
-            }
-        });*/
 
         return view;
     }

@@ -13,6 +13,9 @@
             android:name=".AddingClassActivity"
             android:exported="false" />
         <activity
+            android:name=".EditingClassActivity"
+            android:exported="false" />
+        <activity
             android:name=".MyClassInstructorActivity"
             android:exported="false" />
         <activity
