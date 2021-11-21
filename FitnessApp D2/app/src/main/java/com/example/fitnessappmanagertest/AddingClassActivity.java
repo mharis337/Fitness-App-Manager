@@ -2,11 +2,14 @@ package com.example.fitnessappmanagertest;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -16,14 +19,23 @@ import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.regex.Pattern;
 
-
 public class AddingClassActivity extends AppCompatActivity {
     EditText diff, day, time, cap;
     TextView availableClass;
+    Button difficultyBtn, dayBtn, timeBtn;
 
     ListView myClasses;
     ArrayList<String> classTypes;
     ArrayAdapter adapter;
+
+    Boolean choseDifficulty = false;
+    Boolean choseDay = false;
+    Boolean ChoseTime = false;
+    String selectedDifficulty = "Behinner";
+    String selectedDay = "Monday";
+    String selectedTime = "1:00";
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,9 +46,11 @@ public class AddingClassActivity extends AppCompatActivity {
         day = (EditText) findViewById(R.id.day);
         time = (EditText) findViewById(R.id.hour);
         cap = (EditText)  findViewById(R.id.cap);
+        difficultyBtn = (Button) findViewById(R.id.difficultyBtn);
+        dayBtn = (Button) findViewById(R.id.dayBtn);
+        timeBtn = (Button) findViewById(R.id.timeBtn);
 
         availableClass = (TextView) findViewById(R.id.selectedClass);
-
         myClasses = (ListView) findViewById(R.id.availableClasses);
         viewData();
 
@@ -47,6 +61,113 @@ public class AddingClassActivity extends AppCompatActivity {
 
                 availableClass.setText(text);
                 Toast.makeText(AddingClassActivity.this, ""+text, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        difficultyBtn.setOnClickListener(new AdapterView.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                showDifficultyOptionsDialog();
+            }
+
+            private void showDifficultyOptionsDialog() {
+                String[] difficulties = {"Beginner", "Intermediate", "Advanced"};
+                AlertDialog.Builder builder = new AlertDialog.Builder(AddingClassActivity.this);
+                builder.setTitle("Choose your class difficulty:");
+                builder.setSingleChoiceItems(difficulties, 0, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        selectedDifficulty = difficulties[which];
+                    }
+                });
+                builder.setPositiveButton("Proceed", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        choseDifficulty = true;
+                        difficultyBtn.setText(selectedDifficulty);
+                        Toast.makeText(AddingClassActivity.this, "Difficulty set to "+selectedDifficulty+"", Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
+                    }
+                });
+                builder.setNegativeButton("Exit", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                builder.show();
+            }
+        });
+
+        dayBtn.setOnClickListener(new AdapterView.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                showDayOptionsDialog();
+            }
+
+            private void showDayOptionsDialog() {
+                String[] days = {"Monday", "Tuesday", "Thursday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
+                AlertDialog.Builder builder = new AlertDialog.Builder(AddingClassActivity.this);
+                builder.setTitle("Choose the day of your class:");
+                builder.setSingleChoiceItems(days, 0, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        selectedDay = days[which];
+                    }
+                });
+                builder.setPositiveButton("Proceed", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        choseDay = true;
+                        dayBtn.setText(selectedDay);
+                        Toast.makeText(AddingClassActivity.this, "Day set to "+selectedDay+"", Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
+                    }
+                });
+                builder.setNegativeButton("Exit", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                builder.show();
+            }
+        });
+
+        timeBtn.setOnClickListener(new AdapterView.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                showTimeOptionsDialog();
+            }
+
+            private void showTimeOptionsDialog() {
+                String[] times = {"1:00", "2:00", "3:00", "4:00", "5:00", "6:00", "7:00", "8:00", "9:00",
+                        "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00",
+                        "20:00", "21:00", "22:00", "23:00", "24:00"};
+                AlertDialog.Builder builder = new AlertDialog.Builder(AddingClassActivity.this);
+                builder.setTitle("Choose your class time:");
+                builder.setSingleChoiceItems(times, 0, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        selectedTime = times[which];
+                    }
+                });
+                builder.setPositiveButton("Proceed", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        ChoseTime= true;
+                        timeBtn.setText(selectedTime);
+                        Toast.makeText(AddingClassActivity.this, "Time set to "+selectedTime+"", Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
+                    }
+                });
+                builder.setNegativeButton("Exit", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                builder.show();
             }
         });
 
@@ -73,9 +194,12 @@ public class AddingClassActivity extends AppCompatActivity {
         ClassDatabaseHelper db = new ClassDatabaseHelper(AddingClassActivity.this);
         UserDatabaseHelper userDatabaseHelper = new UserDatabaseHelper(AddingClassActivity.this);
         //Toast.makeText(addingClass.this, String.valueOf(db.classFound(availableClass.getText().toString(), day.getText().toString())), Toast.LENGTH_SHORT).show();
-        if(diff.getText().toString().isEmpty() || day.getText().toString().isEmpty() || time.getText().toString().isEmpty() || cap.getText().toString().isEmpty()) {
-            Toast.makeText(AddingClassActivity.this, " One of the fields was left empty!", Toast.LENGTH_SHORT).show();
-        }else{
+//        if(diff.getText().toString().isEmpty() || day.getText().toString().isEmpty() || time.getText().toString().isEmpty() || cap.getText().toString().isEmpty()) {
+//            Toast.makeText(AddingClassActivity.this, " One of the fields was left empty!", Toast.LENGTH_SHORT).show();
+//        }
+        if (choseDifficulty || choseDay || ChoseTime) {
+            Toast.makeText(AddingClassActivity.this, "Difficulty, day or time have not been picked yet!", Toast.LENGTH_SHORT).show();
+        } else{
             String a = "Monday Tuesday Wednesday Thursday Friday Saturday Sunday";
             String b = "Hard Medium Easy";
             String c = "1:00 2:00 3:00 4:00 5:00 6:00 7:00 8:00 9:00 10:00 11:00 12:00 13:00 14:00 15:00 16:00 17:00 18:00 19:00 20:00 21:00 22:00 23:00 24:00";

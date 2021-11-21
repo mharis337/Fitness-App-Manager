@@ -92,6 +92,12 @@
                 android:ems="10"
                 android:inputType="textPersonName"
                 android:text="" />
+
+            <Button
+                android:id="@+id/difficultyBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Select difficulty" />
         </TableRow>
 
         <TableRow
@@ -113,6 +119,12 @@
                 android:ems="10"
                 android:inputType="textPersonName"
                 android:text="" />
+
+            <Button
+                android:id="@+id/dayBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Select day" />
         </TableRow>
 
         <TableRow
@@ -134,6 +146,12 @@
                 android:ems="10"
                 android:inputType="textPersonName"
                 android:text="" />
+
+            <Button
+                android:id="@+id/timeBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Select time" />
         </TableRow>
 
         <TableRow

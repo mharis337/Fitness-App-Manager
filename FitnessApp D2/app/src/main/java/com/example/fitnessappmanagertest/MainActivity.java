@@ -9,7 +9,6 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-// >> 5 fields were validated, 2 in MainActivity and 3 in AdminActivity <<
 public class MainActivity extends AppCompatActivity {
     public final static String uInfo = "com.example.myfirstapp.MESSAGE";
 
