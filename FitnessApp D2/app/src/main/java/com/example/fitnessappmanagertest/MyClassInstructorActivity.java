@@ -17,8 +17,8 @@ public class MyClassInstructorActivity extends AppCompatActivity {
 
     ListView myClassList;
     ArrayList<String> listMyClasses;
-    ArrayAdapter adapter;
-
+    //ArrayAdapter adapter;
+    ClassAdapter adapter;
 
 
 
@@ -49,12 +49,15 @@ public class MyClassInstructorActivity extends AppCompatActivity {
         //Toast.makeText(myClassInstructor.this, ""+databaseHelper.specificSearch(userName, "").length, Toast.LENGTH_SHORT).show();
 
         if(!databaseHelper.isEmpty()) {
-            listMyClasses = new ArrayList<>();
+            /*listMyClasses = new ArrayList<>();
 
             for (String i : databaseHelper.specificSearch(userName, "")) {
                 listMyClasses.add(i);
-            }
-            adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listMyClasses);
+            }*/
+            ArrayList<String[]> classes = databaseHelper.getClasses(userName, "");
+            adapter = new ClassAdapter(classes, this, databaseHelper);
+
+            //adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listMyClasses);
 
             myClassList.setAdapter(adapter);
             databaseHelper.close();

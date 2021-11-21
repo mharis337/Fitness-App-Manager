@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -23,8 +24,8 @@ public class ViewAllInstructorActivity extends AppCompatActivity {
 
     ListView classList;
     ArrayList<String> listClasses;
-    //ArrayAdapter adapter;
-    ClassAdapter adapter;
+    ArrayAdapter adapter;
+    //ClassAdapter adapter;
 
 
     @Override
@@ -54,13 +55,13 @@ public class ViewAllInstructorActivity extends AppCompatActivity {
         ClassDatabaseHelper databaseHelper = new ClassDatabaseHelper(ViewAllInstructorActivity.this);
         //Toast.makeText(viewAllInstructor.this, ""+databaseHelper.specificSearch("", "").length, Toast.LENGTH_SHORT).show();
         if(!databaseHelper.isEmpty()) {
-           // listClasses = new ArrayList<String>();
-            //for (String i : databaseHelper.specificSearch(instructorName.getText().toString(), className.getText().toString())) {
-            //    listClasses.add(i);
-            //}
-            ArrayList<String[]> classes = databaseHelper.getClasses(instructorName.getText().toString(), className.getText().toString());
-            //adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listClasses);
-            adapter = new ClassAdapter(classes, this, databaseHelper);
+            listClasses = new ArrayList<String>();
+            for (String i : databaseHelper.specificSearch(instructorName.getText().toString(), className.getText().toString())) {
+                listClasses.add(i);
+            }
+            //ArrayList<String[]> classes = databaseHelper.getClasses(instructorName.getText().toString(), className.getText().toString());
+            adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listClasses);
+            //adapter = new ClassAdapter(classes, this, databaseHelper);
 
             classList.setAdapter(adapter);
             databaseHelper.close();
