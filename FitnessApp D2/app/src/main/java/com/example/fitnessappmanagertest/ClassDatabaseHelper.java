@@ -198,6 +198,29 @@ public class ClassDatabaseHelper extends SQLiteOpenHelper {
 
     }
 
+    public String getID(String className, String classDay){
+            String id = "";
+
+            String query = "SELECT * FROM " + user_table + " WHERE " + COLUMN_DAY + "='"+ classDay +"'" + " AND " + COLUMN_CLASS_NAME + " ='" + className +"'";
+            SQLiteDatabase db = this.getReadableDatabase();
+
+            Cursor cursor = db.rawQuery(query, null);
+
+            cursor.moveToFirst();
+
+            for(int i = 0; i < cursor.getCount(); i++){
+                id = cursor.getString(0);
+                cursor.moveToNext();
+            }
+
+
+
+            cursor.close();
+            db.close();
+
+            return id;
+    }
+
     public boolean searchClassByID(int id){
         String query = "SELECT * FROM " + user_table + " WHERE " + COLUMN_CLASS_ID + "='"+ Integer.toString(id) +"'";
         SQLiteDatabase db = this.getReadableDatabase();
