@@ -71,7 +71,8 @@ public class MyClassInstructorActivity extends AppCompatActivity {
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        return false;
+        /*AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         ClassDatabaseHelper databaseHelper = new ClassDatabaseHelper(MyClassInstructorActivity.this);
         int classId = getClassID(myClassList.getItemAtPosition(info.position));
 
@@ -101,6 +102,6 @@ public class MyClassInstructorActivity extends AppCompatActivity {
                 return true;
             default:
                 return super.onContextItemSelected(item);
-        }
+        }*/
     }
 }
