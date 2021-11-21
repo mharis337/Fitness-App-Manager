@@ -173,8 +173,6 @@ public class ClassDatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-
-
     public String[] classOnThisDay(String day){
         String[] cName;
 
