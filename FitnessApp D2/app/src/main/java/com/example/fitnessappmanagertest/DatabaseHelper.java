@@ -157,7 +157,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public boolean userFound(String user){
-        ContentValues cv = new ContentValues();
         String userName;
 
         String query = "SELECT * FROM " + user_table + " WHERE " + COLUMN_USERNAME + "='"+ user +"'";

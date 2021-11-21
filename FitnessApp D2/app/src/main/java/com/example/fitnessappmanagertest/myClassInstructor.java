@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -43,6 +44,7 @@ public class myClassInstructor extends AppCompatActivity {
         Intent intent = getIntent();
         String userName = intent.getStringExtra("UserRole");
 
+        DatabaseHelper db = new DatabaseHelper(myClassInstructor.this);
 
         //Toast.makeText(myClassInstructor.this, ""+databaseHelper.specificSearch(userName, "").length, Toast.LENGTH_SHORT).show();
 

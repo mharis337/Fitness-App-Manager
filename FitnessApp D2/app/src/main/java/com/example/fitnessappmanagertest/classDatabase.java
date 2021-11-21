@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.provider.ContactsContract;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
@@ -117,7 +118,7 @@ public class classDatabase extends SQLiteOpenHelper {
 
         cursor.moveToFirst();
         for(int i = 0; i < cursor.getCount(); i++){
-            classNames[i] = "Class: " + cursor.getString(1) + " Capacity: " + cursor.getString(7);
+            classNames[i] = "Class: " + cursor.getString(1) + " | Instructor: " + cursor.getString(2) + " |     Cap:" + cursor.getString(7);
             cursor.moveToNext();
         }
         cursor.close();
@@ -132,26 +133,28 @@ public class classDatabase extends SQLiteOpenHelper {
     }
 
 
-    public boolean classFound(String name, String day){
-        String cName;
+    public String[] classOnThisDay(String day){
+        String[] cName;
 
-        String query = "SELECT * FROM " + user_table + " WHERE " + COLUMN_CLASS_NAME + "='"+ name +"'" + " AND " + COLUMN_DAY + "='" + day + "'";
+        String query = "SELECT * FROM " + user_table + " WHERE " + COLUMN_DAY + "='"+ day +"'";
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.rawQuery(query, null);
 
+        cursor.moveToFirst();
 
-        while(cursor.moveToFirst()) {
-            cName = cursor.getString(0);
-            if(name.equals(cName)){
-                return true;
-            }
+        cName = new String[cursor.getCount()];
+        for(int i = 0; i < cursor.getCount(); i++){
+            cName[i] = cursor.getString(1);
+            cursor.moveToNext();
         }
+
+
 
         cursor.close();
         db.close();
 
-        return false;
+        return cName;
 
     }
 
