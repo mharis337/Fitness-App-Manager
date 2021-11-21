@@ -26,7 +26,8 @@ public class viewAllInstructor extends AppCompatActivity {
 
     ListView classList;
     ArrayList<String> listClasses;
-    ArrayAdapter adapter;
+    //ArrayAdapter adapter;
+    ClassAdapter adapter;
 
 
     @Override
@@ -56,11 +57,13 @@ public class viewAllInstructor extends AppCompatActivity {
         classDatabase databaseHelper = new classDatabase(viewAllInstructor.this);
         //Toast.makeText(viewAllInstructor.this, ""+databaseHelper.specificSearch("", "").length, Toast.LENGTH_SHORT).show();
         if(!databaseHelper.isEmpty()) {
-            listClasses = new ArrayList<>();
-            for (String i : databaseHelper.specificSearch(instructorName.getText().toString(), className.getText().toString())) {
-                listClasses.add(i);
-            }
-            adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listClasses);
+           // listClasses = new ArrayList<String>();
+            //for (String i : databaseHelper.specificSearch(instructorName.getText().toString(), className.getText().toString())) {
+            //    listClasses.add(i);
+            //}
+            ArrayList<String[]> classes = databaseHelper.getClasses(instructorName.getText().toString(), className.getText().toString());
+            //adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listClasses);
+            adapter = new ClassAdapter(classes, this, databaseHelper);
 
             classList.setAdapter(adapter);
             databaseHelper.close();

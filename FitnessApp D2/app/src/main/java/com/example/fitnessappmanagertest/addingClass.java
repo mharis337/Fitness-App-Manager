@@ -92,7 +92,6 @@ public class addingClass extends AppCompatActivity {
                 if(!d.contains(Character.toString((cap.getText().toString().charAt(l))))){
                     isInt = false;
                 }
-
             }
 
             if (!Pattern.compile(Pattern.quote(day.getText().toString()), Pattern.CASE_INSENSITIVE).matcher(a).find()){
