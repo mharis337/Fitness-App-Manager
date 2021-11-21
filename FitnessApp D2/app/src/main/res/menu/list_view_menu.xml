@@ -22,7 +22,7 @@
         android:title="Edit capacity" />
 
     <item
-        android:id="@+id/deleteItem"
+        android:id="@+id/deleteClass"
         android:title="Delete class" />
 
 </menu>

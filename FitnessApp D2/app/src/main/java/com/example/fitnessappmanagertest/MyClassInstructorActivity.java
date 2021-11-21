@@ -72,24 +72,24 @@ public class MyClassInstructorActivity extends AppCompatActivity {
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-        MyDBHandler dbHandler = new MyDBHandler(this);
-        String itemName = productlist.getItemAtPosition(info.position).toString();
+        ClassDatabaseHelper databaseHelper = new ClassDatabaseHelper(MyClassInstructorActivity.this);
+        int classId = getClassID(myClassList.getItemAtPosition(info.position));
 
 
         switch (item.getItemId()) {
-            case R.id.viewData:
-                Product product = dbHandler.findProduct(itemName);
-
-                idView.setText(String.valueOf(product.get_id()));
-                productBox.setText(String.valueOf(product.get_productname()));
-                priceBox.setText(String.valueOf(product.get_price()));
-
-                Toast.makeText(this, "Item: "+product.get_productname()+
-                                ", Price: "+product.get_price()+"",
-                        Toast.LENGTH_SHORT).show();
-                return true;
-            case R.id.deleteItem:
-                dbHandler.deleteProduct(itemName);
+//            case R.id.viewData:
+////                GymClass product = databaseHelper.(itemName);
+////
+////                idView.setText(String.valueOf(product.get_id()));
+////                productBox.setText(String.valueOf(product.get_productname()));
+////                priceBox.setText(String.valueOf(product.get_price()));
+////
+////                Toast.makeText(this, "Item: "+product.get_productname()+
+////                                ", Price: "+product.get_price()+"",
+////                        Toast.LENGTH_SHORT).show();
+////                return true;
+            case R.id.deleteClass:
+                databaseHelper.deleteClass(className);
                 listItem.clear();
                 viewData();
 
