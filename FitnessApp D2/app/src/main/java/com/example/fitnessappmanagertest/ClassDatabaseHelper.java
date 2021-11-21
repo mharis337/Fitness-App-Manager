@@ -5,14 +5,13 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.provider.ContactsContract;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 
-public class classDatabase extends SQLiteOpenHelper {
+public class ClassDatabaseHelper extends SQLiteOpenHelper {
 
     public static final String user_table = "CLASS_TABLE";
     public static final String COLUMN_CLASS_ID = "CLASS_ID";
@@ -26,7 +25,7 @@ public class classDatabase extends SQLiteOpenHelper {
 
     //public static final String CLASS_TYPE_TABLE = "CLASS_TYPE_TABLE";
 
-    public classDatabase(@Nullable Context context) {
+    public ClassDatabaseHelper(@Nullable Context context) {
         super(context, "classes.db", null, 1);
     }
 
@@ -59,7 +58,7 @@ public class classDatabase extends SQLiteOpenHelper {
         return true;
     }
 
-    public boolean addClass(gymClass name){
+    public boolean addClass(GymClass name){
 
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();

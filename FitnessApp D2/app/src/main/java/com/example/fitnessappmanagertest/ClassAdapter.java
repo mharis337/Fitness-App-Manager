@@ -15,9 +15,9 @@ public class ClassAdapter extends BaseAdapter implements ListAdapter {
     private ArrayList<String[]> list = new ArrayList<String[]>();
     //private String[][] list;
     private Context context;
-    private classDatabase databaseHelper;
+    private ClassDatabaseHelper databaseHelper;
 
-    public ClassAdapter(ArrayList<String[]> list, Context context, classDatabase databaseHelper) {
+    public ClassAdapter(ArrayList<String[]> list, Context context, ClassDatabaseHelper databaseHelper) {
         this.list = list;
         this.context = context;
         this.databaseHelper = databaseHelper;

@@ -10,16 +10,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FitnessAppManager">
         <activity
-            android:name=".addingClass"
+            android:name=".AddingClassActivity"
             android:exported="false" />
         <activity
-            android:name=".myClassInstructor"
+            android:name=".MyClassInstructorActivity"
             android:exported="false" />
         <activity
-            android:name=".viewAllInstructor"
+            android:name=".ViewAllInstructorActivity"
             android:exported="false" />
         <activity
-            android:name=".InstructorScreen"
+            android:name=".InstructorScreenActivity"
             android:exported="false" />
         <activity
             android:name=".WelcomeScreenActivity"

@@ -17,7 +17,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.regex.Pattern;
 
 
-public class addingClass extends AppCompatActivity {
+public class AddingClassActivity extends AppCompatActivity {
     EditText diff, day, time, cap;
     TextView availableClass;
 
@@ -46,23 +46,23 @@ public class addingClass extends AppCompatActivity {
                 String text = myClasses.getItemAtPosition(i).toString();
 
                 availableClass.setText(text);
-                Toast.makeText(addingClass.this, ""+text, Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddingClassActivity.this, ""+text, Toast.LENGTH_SHORT).show();
             }
         });
 
     }
 
     private void viewData() {
-        DatabaseHelper databaseHelper = new DatabaseHelper(addingClass.this);
+        UserDatabaseHelper userDatabaseHelper = new UserDatabaseHelper(AddingClassActivity.this);
 
         classTypes = new ArrayList<>();
-        for(String type : databaseHelper.getClassType()){
+        for(String type : userDatabaseHelper.getClassType()){
             classTypes.add(type);
         }
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, classTypes);
 
         myClasses.setAdapter(adapter);
-        databaseHelper.close();
+        userDatabaseHelper.close();
     }
 
     public void addClass(View view) {
@@ -70,11 +70,11 @@ public class addingClass extends AppCompatActivity {
         Boolean isInt = true;
         Intent intent = getIntent();
         String userName = intent.getStringExtra("UserRole");
-        classDatabase db = new classDatabase(addingClass.this);
-        DatabaseHelper databaseHelper = new DatabaseHelper(addingClass.this);
+        ClassDatabaseHelper db = new ClassDatabaseHelper(AddingClassActivity.this);
+        UserDatabaseHelper userDatabaseHelper = new UserDatabaseHelper(AddingClassActivity.this);
         //Toast.makeText(addingClass.this, String.valueOf(db.classFound(availableClass.getText().toString(), day.getText().toString())), Toast.LENGTH_SHORT).show();
         if(diff.getText().toString().isEmpty() || day.getText().toString().isEmpty() || time.getText().toString().isEmpty() || cap.getText().toString().isEmpty()) {
-            Toast.makeText(addingClass.this, " One of the fields was left empty!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(AddingClassActivity.this, " One of the fields was left empty!", Toast.LENGTH_SHORT).show();
         }else{
             String a = "Monday Tuesday Wednesday Thursday Friday Saturday Sunday";
             String b = "Hard Medium Easy";
@@ -95,16 +95,16 @@ public class addingClass extends AppCompatActivity {
             }
 
             if (!Pattern.compile(Pattern.quote(day.getText().toString()), Pattern.CASE_INSENSITIVE).matcher(a).find()){
-                Toast.makeText(addingClass.this, " Invalid Day Options: Monday Tuesday Wednesday Thursday Friday Saturday Sunday", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddingClassActivity.this, " Invalid Day Options: Monday Tuesday Wednesday Thursday Friday Saturday Sunday", Toast.LENGTH_SHORT).show();
             }else if (!Pattern.compile(Pattern.quote(time.getText().toString()), Pattern.CASE_INSENSITIVE).matcher(c).find()){
-                Toast.makeText(addingClass.this, " Invalid Time Options: 1:00 2:00 3:00 4:00 5:00 6:00 7:00 8:00 9:00 10:00 11:00 12:00 13:00 14:00 15:00 16:00 17:00 18:00 19:00 20:00 21:00 22:00 23:00 24:00", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddingClassActivity.this, " Invalid Time Options: 1:00 2:00 3:00 4:00 5:00 6:00 7:00 8:00 9:00 10:00 11:00 12:00 13:00 14:00 15:00 16:00 17:00 18:00 19:00 20:00 21:00 22:00 23:00 24:00", Toast.LENGTH_SHORT).show();
             } else if(!Pattern.compile(Pattern.quote(diff.getText().toString()), Pattern.CASE_INSENSITIVE).matcher(b).find()){
-                Toast.makeText(addingClass.this, " Invalid Difficulty Options: Hard Medium Easy", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddingClassActivity.this, " Invalid Difficulty Options: Hard Medium Easy", Toast.LENGTH_SHORT).show();
             }else if(!isInt){
-                Toast.makeText(addingClass.this, " Invalid Capacity Options: Integer", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddingClassActivity.this, " Invalid Capacity Options: Integer", Toast.LENGTH_SHORT).show();
             }else{
             if(!playSameDay) {
-                gymClass newClass = new gymClass(availableClass.getText().toString(), userName, diff.getText().toString(), databaseHelper.getClassDesc(availableClass.getText().toString()), sDay, time.getText().toString(), cap.getText().toString());
+                GymClass newClass = new GymClass(availableClass.getText().toString(), userName, diff.getText().toString(), userDatabaseHelper.getClassDesc(availableClass.getText().toString()), sDay, time.getText().toString(), cap.getText().toString());
 
                 while (db.searchClassByID(newClass.getClassID())) {
                     newClass.setClassID(ThreadLocalRandom.current().nextInt(0, 10000));
@@ -113,13 +113,13 @@ public class addingClass extends AppCompatActivity {
                 System.out.println(newClass.toString());
                 db.addClass(newClass);
             }else{
-                Toast.makeText(addingClass.this, " You already have a class of this type on this day!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddingClassActivity.this, " You already have a class of this type on this day!", Toast.LENGTH_SHORT).show();
             }
             }
         }
         //db.close();
         //databaseHelper.close();
-        Intent intentmyClassList = new Intent(addingClass.this, myClassInstructor.class);
+        Intent intentmyClassList = new Intent(AddingClassActivity.this, MyClassInstructorActivity.class);
         intentmyClassList.putExtra("UserRole", userName);
         startActivity(intentmyClassList);
 

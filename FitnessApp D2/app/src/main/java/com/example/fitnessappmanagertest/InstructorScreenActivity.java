@@ -6,9 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
-public class InstructorScreen extends AppCompatActivity {
+public class InstructorScreenActivity extends AppCompatActivity {
     TextView welcome;
     String username, role;
 
@@ -27,12 +26,12 @@ public class InstructorScreen extends AppCompatActivity {
     }
 
     public void startViewAll(View view){
-        Intent intentViewAllInstructor = new Intent(this, viewAllInstructor.class);
+        Intent intentViewAllInstructor = new Intent(this, ViewAllInstructorActivity.class);
         startActivity(intentViewAllInstructor);
     }
 
     public void startMyClass(View view){
-        Intent intentmyClassList = new Intent(InstructorScreen.this, myClassInstructor.class);
+        Intent intentmyClassList = new Intent(InstructorScreenActivity.this, MyClassInstructorActivity.class);
         intentmyClassList.putExtra("UserRole", username);
         startActivity(intentmyClassList);
     }

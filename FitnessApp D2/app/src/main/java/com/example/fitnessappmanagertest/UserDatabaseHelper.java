@@ -9,7 +9,7 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 
-public class DatabaseHelper extends SQLiteOpenHelper {
+public class UserDatabaseHelper extends SQLiteOpenHelper {
 
     public static final String user_table = "USER_TABLE";
     public static final String COLUMN_FIRST_NAME = "FIRST_NAME";
@@ -21,7 +21,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     //public static final String CLASS_TYPE_TABLE = "CLASS_TYPE_TABLE";
 
-    public DatabaseHelper(@Nullable Context context) {
+    public UserDatabaseHelper(@Nullable Context context) {
         super(context, "users.db", null, 1);
     }
 

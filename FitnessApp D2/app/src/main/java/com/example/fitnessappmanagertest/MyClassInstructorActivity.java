@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -13,7 +12,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class myClassInstructor extends AppCompatActivity {
+public class MyClassInstructorActivity extends AppCompatActivity {
 
     ListView myClassList;
     ArrayList<String> listMyClasses;
@@ -34,17 +33,17 @@ public class myClassInstructor extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String text = myClassList.getItemAtPosition(i).toString();
-                Toast.makeText(myClassInstructor.this, ""+text, Toast.LENGTH_SHORT).show();
+                Toast.makeText(MyClassInstructorActivity.this, ""+text, Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     private void viewData() {
-        classDatabase databaseHelper = new classDatabase(myClassInstructor.this);
+        ClassDatabaseHelper databaseHelper = new ClassDatabaseHelper(MyClassInstructorActivity.this);
         Intent intent = getIntent();
         String userName = intent.getStringExtra("UserRole");
 
-        DatabaseHelper db = new DatabaseHelper(myClassInstructor.this);
+        UserDatabaseHelper db = new UserDatabaseHelper(MyClassInstructorActivity.this);
 
         //Toast.makeText(myClassInstructor.this, ""+databaseHelper.specificSearch(userName, "").length, Toast.LENGTH_SHORT).show();
 
@@ -64,7 +63,7 @@ public class myClassInstructor extends AppCompatActivity {
     public void startAddingActivity(View view){
         Intent intent = getIntent();
         String userName = intent.getStringExtra("UserRole");
-        Intent intentmyClassList = new Intent(myClassInstructor.this, addingClass.class);
+        Intent intentmyClassList = new Intent(MyClassInstructorActivity.this, AddingClassActivity.class);
         intentmyClassList.putExtra("UserRole", userName);
         startActivity(intentmyClassList);
     }

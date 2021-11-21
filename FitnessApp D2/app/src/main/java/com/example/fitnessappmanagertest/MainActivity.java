@@ -15,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
 
     Button btnSignUp;
 //    Button btnLogIn = (Button) findViewById(R.id.btnLogIn);
-    DatabaseHelper databaseHelper = new DatabaseHelper(MainActivity.this);
+    UserDatabaseHelper userDatabaseHelper = new UserDatabaseHelper(MainActivity.this);
     //classDatabase classHelper = new classDatabase(MainActivity.this);
 
     @Override
@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         //gymClass yoga = new gymClass("Yoga", "This is a yoga class");
 
         //classHelper.addClass(yoga);
-        databaseHelper.addUser(admin);
+        userDatabaseHelper.addUser(admin);
     }
 
     /* Called when the user clicks the SIGN UP button */
@@ -42,15 +42,15 @@ public class MainActivity extends AppCompatActivity {
         TextView username = (TextView) findViewById(R.id.username);
         TextView password = (TextView) findViewById(R.id.password);
 
-        if(databaseHelper.userFound(username.getText().toString())) {
-            if(databaseHelper.userPassword(username.getText().toString()).equals(password.getText().toString())){
-                String userType = databaseHelper.userType(username.getText().toString());
+        if(userDatabaseHelper.userFound(username.getText().toString())) {
+            if(userDatabaseHelper.userPassword(username.getText().toString()).equals(password.getText().toString())){
+                String userType = userDatabaseHelper.userType(username.getText().toString());
 
                 Intent intent;
                 if(userType.equals("admin")) {
                     intent = new Intent(MainActivity.this, WelcomeScreenActivity.class);
                 } else if(userType.equals("instructor")){
-                    intent = new Intent(MainActivity.this, InstructorScreen.class);
+                    intent = new Intent(MainActivity.this, InstructorScreenActivity.class);
                     Toast.makeText(MainActivity.this, "GOING TO INSTRUCTOR" , Toast.LENGTH_SHORT).show();
 
                 }

@@ -2,11 +2,11 @@ package com.example.fitnessappmanagertest;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-public class gymClass {
+public class GymClass {
     private String difficulty, name, day, hours, instructor, desc, capacity;
     private int classID;
 
-    public gymClass(String name, String desc){
+    public GymClass(String name, String desc){
         this.name = name;
         this.desc = desc;
 
@@ -17,7 +17,7 @@ public class gymClass {
         this.capacity = "0";
         this.classID = 0;
     }
-    public gymClass(String name, String instructor, String difficulty, String desc, String day, String hours, String capacity) {
+    public GymClass(String name, String instructor, String difficulty, String desc, String day, String hours, String capacity) {
         this.difficulty = difficulty;
         this.name = name;
         this.day = day;

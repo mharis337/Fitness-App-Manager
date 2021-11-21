@@ -47,7 +47,7 @@ public class SignUpActivity extends AppCompatActivity {
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DatabaseHelper databaseHelper = new DatabaseHelper(SignUpActivity.this);
+                UserDatabaseHelper userDatabaseHelper = new UserDatabaseHelper(SignUpActivity.this);
 
                 if(isInstructor.isChecked()) {
                     accountType = "instructor";
@@ -56,7 +56,7 @@ public class SignUpActivity extends AppCompatActivity {
                     accountType = "member";
                 }
                 // Throw exception if username or password isnt given
-                if(databaseHelper.userFound(uname.getText().toString())){
+                if(userDatabaseHelper.userFound(uname.getText().toString())){
                     Toast.makeText(SignUpActivity.this, "This user already exits" , Toast.LENGTH_SHORT).show();
                 }
                 else if(uname.getText().toString().equals("")){
@@ -79,7 +79,7 @@ public class SignUpActivity extends AppCompatActivity {
                 }
                 else {
                     UserAccounts user = new UserAccounts(fname.getText().toString(), lname.getText().toString(), uname.getText().toString(), pwd.getText().toString(), accountType);
-                    databaseHelper.addUser(user);
+                    userDatabaseHelper.addUser(user);
                     backToMain();
                 }
             }

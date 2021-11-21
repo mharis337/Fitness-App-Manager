@@ -2,12 +2,9 @@ package com.example.fitnessappmanagertest;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -17,7 +14,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 
-public class viewAllInstructor extends AppCompatActivity {
+public class ViewAllInstructorActivity extends AppCompatActivity {
 
     TextView status;
     EditText className;
@@ -48,13 +45,13 @@ public class viewAllInstructor extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String text = classList.getItemAtPosition(i).toString();
-                Toast.makeText(viewAllInstructor.this, ""+text, Toast.LENGTH_SHORT).show();
+                Toast.makeText(ViewAllInstructorActivity.this, ""+text, Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     private void viewData() {
-        classDatabase databaseHelper = new classDatabase(viewAllInstructor.this);
+        ClassDatabaseHelper databaseHelper = new ClassDatabaseHelper(ViewAllInstructorActivity.this);
         //Toast.makeText(viewAllInstructor.this, ""+databaseHelper.specificSearch("", "").length, Toast.LENGTH_SHORT).show();
         if(!databaseHelper.isEmpty()) {
            // listClasses = new ArrayList<String>();
@@ -72,7 +69,7 @@ public class viewAllInstructor extends AppCompatActivity {
 
     public void startSearch(View view){
         if(className.getText().toString().isEmpty() && instructorName.getText().toString().isEmpty()){
-            Toast.makeText(viewAllInstructor.this, "Nothing was input", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ViewAllInstructorActivity.this, "Nothing was input", Toast.LENGTH_SHORT).show();
 
         }else {
             viewAll.setVisibility(View.VISIBLE);
