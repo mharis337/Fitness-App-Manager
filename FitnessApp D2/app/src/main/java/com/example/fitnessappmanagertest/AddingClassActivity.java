@@ -31,7 +31,7 @@ public class AddingClassActivity extends AppCompatActivity {
     Boolean choseDifficulty = false;
     Boolean choseDay = false;
     Boolean ChoseTime = false;
-    String selectedDifficulty = "Behinner";
+    String selectedDifficulty = "Beginner";
     String selectedDay = "Monday";
     String selectedTime = "1:00";
 
@@ -107,7 +107,7 @@ public class AddingClassActivity extends AppCompatActivity {
             }
 
             private void showDayOptionsDialog() {
-                String[] days = {"Monday", "Tuesday", "Thursday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
+                String[] days = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
                 AlertDialog.Builder builder = new AlertDialog.Builder(AddingClassActivity.this);
                 builder.setTitle("Choose the day of your class:");
                 builder.setSingleChoiceItems(days, 0, new DialogInterface.OnClickListener() {
@@ -193,17 +193,11 @@ public class AddingClassActivity extends AppCompatActivity {
 
     public boolean addClass(View view, Boolean redirect) {
         Boolean playSameDay = false;
-        Boolean isInt = true;
         Intent intent = getIntent();
         String userName = intent.getStringExtra("UserRole");
         ClassDatabaseHelper db = new ClassDatabaseHelper(AddingClassActivity.this);
-        UserDatabaseHelper userDatabaseHelper = new UserDatabaseHelper(AddingClassActivity.this);
         ClassTypesDatabase cdb = new ClassTypesDatabase(AddingClassActivity.this);
 
-        //Toast.makeText(addingClass.this, String.valueOf(db.classFound(availableClass.getText().toString(), day.getText().toString())), Toast.LENGTH_SHORT).show();
-//        if(diff.getText().toString().isEmpty() || day.getText().toString().isEmpty() || time.getText().toString().isEmpty() || cap.getText().toString().isEmpty()) {
-//            Toast.makeText(AddingClassActivity.this, " One of the fields was left empty!", Toast.LENGTH_SHORT).show();
-//        }
         if (!(choseDifficulty || choseDay || ChoseTime)) {
             Toast.makeText(AddingClassActivity.this, "Difficulty, day or time have not been picked.", Toast.LENGTH_SHORT).show();
             return false;
@@ -211,10 +205,6 @@ public class AddingClassActivity extends AppCompatActivity {
             Toast.makeText(AddingClassActivity.this, "Class type have not been selected.", Toast.LENGTH_SHORT).show();
             return false;
         } else{
-//            String a = "Monday Tuesday Wednesday Thursday Friday Saturday Sunday";
-//            String b = "Hard Medium Easy";
-//            String c = "1:00 2:00 3:00 4:00 5:00 6:00 7:00 8:00 9:00 10:00 11:00 12:00 13:00 14:00 15:00 16:00 17:00 18:00 19:00 20:00 21:00 22:00 23:00 24:00";
-//            String d = "12334567890";
 
             String sDay = selectedDay;
             for(String i : db.classOnThisDay(sDay)){
@@ -222,19 +212,6 @@ public class AddingClassActivity extends AppCompatActivity {
                     playSameDay = true;
                 }
             }
-
-//            for(int l = 0; l < cap.getText().toString().length(); l++){
-//                if(!d.contains(Character.toString((cap.getText().toString().charAt(l))))){
-//                    isInt = false;
-//                }
-//            }
-//            if (!Pattern.compile(Pattern.quote(day.getText().toString()), Pattern.CASE_INSENSITIVE).matcher(a).find()){
-//                Toast.makeText(AddingClassActivity.this, " Invalid Day Options: Monday Tuesday Wednesday Thursday Friday Saturday Sunday", Toast.LENGTH_SHORT).show();
-//            }else if (!Pattern.compile(Pattern.quote(time.getText().toString()), Pattern.CASE_INSENSITIVE).matcher(c).find()){
-//                Toast.makeText(AddingClassActivity.this, " Invalid Time Options: 1:00 2:00 3:00 4:00 5:00 6:00 7:00 8:00 9:00 10:00 11:00 12:00 13:00 14:00 15:00 16:00 17:00 18:00 19:00 20:00 21:00 22:00 23:00 24:00", Toast.LENGTH_SHORT).show();
-//            } else if(!Pattern.compile(Pattern.quote(diff.getText().toString()), Pattern.CASE_INSENSITIVE).matcher(b).find()){
-//                Toast.makeText(AddingClassActivity.this, " Invalid Difficulty Options: Hard Medium Easy", Toast.LENGTH_SHORT).show();
-//            }
             if(cap.getText().toString().equals("")){
                 Toast.makeText(AddingClassActivity.this, " Please input the capacity of your class.", Toast.LENGTH_SHORT).show();
                 return false;
@@ -256,8 +233,7 @@ public class AddingClassActivity extends AppCompatActivity {
                 }
             }
         }
-        //db.close();
-        //databaseHelper.close();
+
         if(redirect) {
             this.redirect();
         }

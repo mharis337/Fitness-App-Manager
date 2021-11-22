@@ -96,34 +96,8 @@ public class ClassDatabaseHelper extends SQLiteOpenHelper {
         cv.put(COLUMN_DAY, name.getDay());
         cv.put(COLUMN_HOUR, name.getHours());
 
-       /* long insert = db.insert(user_table, null, cv);
-
-        if(insert == -1){
-            return false;
-        }
-        else{
-            return true;
-        }*/
-
         return (db.update(user_table, cv, COLUMN_CLASS_ID + " = ?", new String[]{ String.valueOf(name.getClassID())}) != -1);
     }
-
-    /*public String[] allClasses(){
-        ContentValues cv = new ContentValues();
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(query, null);
-        String[] classNames = new String[cursor.getCount()];
-
-        cursor.moveToFirst();
-        for(int i = 0; i < cursor.getCount(); i++){
-            classNames[i] = cursor.getString(1);
-            cursor.moveToNext();
-        }
-        cursor.close();
-        db.close();
-
-        return classNames;
-    }*/
 
     public ArrayList<String[]> getClasses(String instructor, String className){
         String query = "";
@@ -245,7 +219,6 @@ public class ClassDatabaseHelper extends SQLiteOpenHelper {
             Cursor cursor = db.rawQuery(query, null);
 
             cursor.moveToFirst();
-
             for(int i = 0; i < cursor.getCount(); i++){
                 id = cursor.getString(0);
                 cursor.moveToNext();
@@ -277,6 +250,16 @@ public class ClassDatabaseHelper extends SQLiteOpenHelper {
 
     }
 
+    public String getInstructor(String id){
+        String query = "SELECT * FROM " + user_table + " WHERE " + COLUMN_CLASS_ID + "='"+ id +"'";
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery(query, null);
+
+        cursor.moveToFirst();
+
+        return cursor.getString(2);
+    }
 
 
 }

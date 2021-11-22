@@ -47,16 +47,8 @@ public class MyClassInstructorActivity extends AppCompatActivity {
         //Toast.makeText(myClassInstructor.this, ""+databaseHelper.specificSearch(userName, "").length, Toast.LENGTH_SHORT).show();
 
         if(!databaseHelper.isEmpty()) {
-            /*listMyClasses = new ArrayList<>();
-
-            for (String i : databaseHelper.specificSearch(userName, "")) {
-                listMyClasses.add(i);
-            }*/
-            ArrayList<String[]> classes = databaseHelper.getClasses(userName, "");
+              ArrayList<String[]> classes = databaseHelper.getClasses(userName, "");
             adapter = new ClassAdapter(classes, this, databaseHelper);
-
-            //adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listMyClasses);
-
             myClassList.setAdapter(adapter);
             databaseHelper.close();
         }
@@ -70,39 +62,5 @@ public class MyClassInstructorActivity extends AppCompatActivity {
         startActivity(intentmyClassList);
     }
 
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-        return false;
-        /*AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-        ClassDatabaseHelper databaseHelper = new ClassDatabaseHelper(MyClassInstructorActivity.this);
-        int classId = getClassID(myClassList.getItemAtPosition(info.position));
 
-
-        switch (item.getItemId()) {
-//            case R.id.viewData:
-////                GymClass product = databaseHelper.(itemName);
-////
-////                idView.setText(String.valueOf(product.get_id()));
-////                productBox.setText(String.valueOf(product.get_productname()));
-////                priceBox.setText(String.valueOf(product.get_price()));
-////
-////                Toast.makeText(this, "Item: "+product.get_productname()+
-////                                ", Price: "+product.get_price()+"",
-////                        Toast.LENGTH_SHORT).show();
-////                return true;
-            case R.id.deleteClass:
-                databaseHelper.deleteClass(className);
-                listItem.clear();
-                viewData();
-
-                idView.setText("Record Deleted");
-                Toast.makeText(this, "Item deleted!", Toast.LENGTH_SHORT).show();
-                productBox.setText("");
-                priceBox.setText("");
-
-                return true;
-            default:
-                return super.onContextItemSelected(item);
-        }*/
-    }
 }
