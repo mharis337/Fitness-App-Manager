@@ -3,6 +3,7 @@ package com.example.fitnessappmanagertest;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
@@ -17,6 +18,11 @@ public class UserDatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_PASSWORD = "PASSWORD";
     public static final String COLUMN_USERNAME = "USERNAME";
     public static final String COLUMN_ACCOUNT_TYPE = "ACCOUNT_TYPE";
+    public static final String user_classes = "USER_CLASSES_TABLE";
+    public static final String COLUMN_ID = "ID";
+    public static final String COLUMN_CLASSES = "CLASSES";
+
+
 
 
     //public static final String CLASS_TYPE_TABLE = "CLASS_TYPE_TABLE";
@@ -30,12 +36,68 @@ public class UserDatabaseHelper extends SQLiteOpenHelper {
         Log.d("TEST", "TEST");
         String createStatements = "CREATE TABLE " + user_table + "(" + COLUMN_USERNAME + " TEXT PRIMARY KEY, " + COLUMN_FIRST_NAME + " TEXT, " + COLUMN_LAST_NAME + " TEXT, " + COLUMN_PASSWORD + " TEXT, " + COLUMN_ACCOUNT_TYPE + " TEXT)";
         db.execSQL(createStatements);
+
+        String createAnotherStatement = "CREATE TABLE " + user_classes + "(" + COLUMN_ID + " TEXT PRIMARY KEY, " + COLUMN_USERNAME + " TEXT, " + COLUMN_CLASSES + " TEXT)";
+        db.execSQL(createAnotherStatement);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
 
     }
+
+    public boolean addUserToClass(String username, String className, String id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        cv.put(COLUMN_USERNAME, username);
+        cv.put(COLUMN_CLASSES, className);
+        cv.put(COLUMN_ID, id);
+
+        long insert = db.insert(user_classes, null, cv);
+
+        if(insert == -1) {
+            return false;
+        }else{
+            return  true;
+        }
+    }
+
+    public boolean doesClassExist(String id){
+        String query = "SELECT * FROM " + user_classes + " WHERE " + COLUMN_ID + "='"+ id +"'";
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery(query, null);
+        if(cursor.getCount() == 0){
+            return false;
+        }
+        else{
+            return true;
+        }
+
+    }
+
+    public String[] getClasses(){
+        try {
+            String query = String.format("SELECT * FROM USER_CLASSES_TABLE");
+
+            SQLiteDatabase db = this.getReadableDatabase();
+            Cursor cursor = db.rawQuery(query, null);
+
+            String[] classes = new String[cursor.getCount()];
+            cursor.moveToFirst();
+            for (int i = 0; i < cursor.getCount(); i++) {
+                classes[i] = cursor.getString(2);
+                cursor.moveToNext();
+            }
+            return classes;
+        }catch(SQLException e){
+            System.out.println("Database has not been created yet");
+
+        }
+        return new String[0];
+    }
+
 
     public boolean addUser(UserAccounts user){
 
@@ -49,6 +111,7 @@ public class UserDatabaseHelper extends SQLiteOpenHelper {
         cv.put(COLUMN_ACCOUNT_TYPE, user.getAccountType());
 
 
+
         long insert = db.insert(user_table, null, cv);
 
         if(insert == -1){
@@ -59,90 +122,6 @@ public class UserDatabaseHelper extends SQLiteOpenHelper {
         }
 
     }
-
-    //Create classtype if it doesnt exist, otherwise edit.
-    /*public boolean setClassType(String name, String description) {
-        //Check if exists
-        String query = String.format("SELECT * FROM CLASS_TYPE_TABLE WHERE NAME = '%s'", name);
-
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(query, null);
-
-        boolean exists = false;
-        while(cursor.moveToFirst()) {
-            if(name.equals(cursor.getString(0))){
-                System.out.println(cursor.getString(0) + " " + cursor.getString(1));
-                exists = true;
-                break;
-            }
-        }
-
-        //Now update/insert accordingly
-        ContentValues cv = new ContentValues();
-        cv.put("NAME", name);
-        cv.put("DESCRIPTION", description);
-
-        if(!exists) {
-            return (db.insert("CLASS_TYPE_TABLE", null, cv) != -1);
-        }
-
-        return (db.update("CLASS_TYPE_TABLE", cv, "NAME = ?", new String[]{name}) != -1);
-    }
-
-    public String[] getClassType(){
-
-        String query = String.format("SELECT * FROM CLASS_TYPE_TABLE");
-
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(query, null);
-
-        String[] types = new String[cursor.getCount()];
-        cursor.moveToFirst();
-        for(int i =0; i < cursor.getCount(); i++){
-            types[i] = cursor.getString(0);
-            cursor.moveToNext();
-        }
-        return types;
-    }
-
-    public String getClassDesc(String name){
-        String query = String.format("SELECT * FROM CLASS_TYPE_TABLE WHERE NAME = '%s'", name);
-
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(query, null);
-
-        while(cursor.moveToFirst()) {
-            if(name.equals(cursor.getString(0))){
-                //System.out.println(cursor.getString(0) + " " + cursor.getString(1));
-                break;
-            }
-        }
-
-        return cursor.getString(1);
-    }
-
-    public boolean deleteClassType(String name) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        return db.delete("CLASS_TYPE_TABLE", "NAME = ?", new String[]{name}) > 0;
-    }
-
-    public boolean classTypeFound(String name) {
-        //Check if exists
-        String query = String.format("SELECT * FROM CLASS_TYPE_TABLE WHERE NAME = '%s'", name);
-
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(query, null);
-
-        boolean exists = false;
-        while (cursor.moveToFirst()) {
-            if (name.equals(cursor.getString(0))) {
-                System.out.println(cursor.getString(0) + " " + cursor.getString(1));
-                exists = true;
-                break;
-            }
-        }
-        return exists;
-    }*/
 
     public boolean deleteUser(String user) {
         SQLiteDatabase db = this.getReadableDatabase();

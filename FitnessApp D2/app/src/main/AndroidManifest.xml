@@ -10,6 +10,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FitnessAppManager">
         <activity
+            android:name=".EnrollingClassActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MyClassMember"
+            android:exported="false" />
+        <activity
+            android:name=".MemberScreenActivity"
+            android:exported="false" />
+        <activity
             android:name=".AddingClassActivity"
             android:exported="false" />
         <activity
@@ -33,9 +42,13 @@
         <activity
             android:name=".SignUpActivity"
             android:exported="true" />
-        <activity android:name=".WelcomeActivity" android:exported="true" android:theme="@style/WelcomeTheme">
+        <activity
+            android:name=".WelcomeActivity"
+            android:exported="true"
+            android:theme="@style/WelcomeTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

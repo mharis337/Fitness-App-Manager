@@ -4,7 +4,12 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/FitnessApp D2/Project-D2/FitnessApp D2/app/src/main/res/layout/activity_adding_class.xml" value="0.33177083333333335" />
+        <entry key="..\:/FitnessApp D2/Project-D2/FitnessApp D2/app/src/main/res/layout/activity_enrolling_class.xml" value="0.540625" />
+        <entry key="..\:/FitnessApp D2/Project-D2/FitnessApp D2/app/src/main/res/layout/activity_instructor_screen.xml" value="0.5546875" />
+        <entry key="..\:/FitnessApp D2/Project-D2/FitnessApp D2/app/src/main/res/layout/activity_member_screen.xml" value="0.5546875" />
         <entry key="..\:/FitnessApp D2/Project-D2/FitnessApp D2/app/src/main/res/layout/activity_my_class_instructor.xml" value="0.33177083333333335" />
+        <entry key="..\:/FitnessApp D2/Project-D2/FitnessApp D2/app/src/main/res/layout/activity_my_class_member.xml" value="0.5546875" />
+        <entry key="..\:/FitnessApp D2/Project-D2/FitnessApp D2/app/src/main/res/layout/adapter_view_layout.xml" value="0.33177083333333335" />
         <entry key="app/src/main/res/drawable-v24/round_button.xml" value="0.340625" />
         <entry key="app/src/main/res/drawable/ic_baseline_lock_24.xml" value="0.4338461538461538" />
         <entry key="app/src/main/res/drawable/round_button.xml" value="0.340625" />

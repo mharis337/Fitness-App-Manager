@@ -50,11 +50,10 @@ public class MainActivity extends AppCompatActivity {
                     intent = new Intent(MainActivity.this, WelcomeScreenActivity.class);
                 } else if(userType.equals("instructor")){
                     intent = new Intent(MainActivity.this, InstructorScreenActivity.class);
-                    Toast.makeText(MainActivity.this, "GOING TO INSTRUCTOR" , Toast.LENGTH_SHORT).show();
 
                 }
                 else {
-                    intent = new Intent(MainActivity.this, WelcomeScreenActivity.class);
+                    intent = new Intent(MainActivity.this, MemberScreenActivity.class);
                 }
 
                 intent.putExtra(uInfo, new String[]{username.getText().toString(), userType});

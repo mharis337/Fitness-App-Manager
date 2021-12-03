@@ -261,5 +261,17 @@ public class ClassDatabaseHelper extends SQLiteOpenHelper {
         return cursor.getString(2);
     }
 
+    public GymClass findClass(String id){
+        GymClass temp;
+        String query = "SELECT * FROM " + user_table + " WHERE " + COLUMN_CLASS_ID + "='"+ id +"'";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        cursor.moveToFirst();
+        temp = new GymClass(cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7));
+        temp.setClassID(Integer.parseInt(cursor.getString(0)));
+
+        return temp;
+    }
+
 
 }

@@ -1,15 +1,18 @@
 package com.example.fitnessappmanagertest;
 
+import java.util.ArrayList;
+
 public class UserAccounts {
 
     private String fname, lname, username, pwd, accountType;
-
+    private ArrayList<GymClass> classes;
     public UserAccounts(String fname, String lname, String username, String pwd, String accountType) {
         this.fname = fname;
         this.lname = lname;
         this.username = username;
         this.pwd = pwd;
         this.accountType = accountType;
+        this.classes = new ArrayList<>();
     }
 
     public String getAccountType() {
@@ -45,6 +48,20 @@ public class UserAccounts {
     }
     public void setPwd(String pwd) {
         this.pwd = pwd;
+    }
+
+    public ArrayList<GymClass> getClasses(){
+        return classes;
+    }
+    public void addClass(GymClass newClass){
+        classes.add(newClass);
+    }
+    public void removeClass(GymClass newClass){
+        if(classes.contains(newClass)) {
+            classes.remove(newClass);
+        }else{
+            System.out.println("Class does not exist");
+        }
     }
 
     @Override

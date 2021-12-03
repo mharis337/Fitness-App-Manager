@@ -1,0 +1,99 @@
+package com.example.fitnessappmanagertest;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.concurrent.ThreadLocalRandom;
+
+public class EnrollingClassActivity extends AppCompatActivity {
+    TextView selectedClass, difficulty, time, capacity, day;
+
+    ListView availableClasses;
+    ArrayList<GymClass> classes;
+    //ClassListAdapted adapter;
+
+
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_enrolling_class);
+
+        selectedClass = (TextView) findViewById(R.id.selectedClass);
+        difficulty = (TextView) findViewById(R.id.textView9);
+        time = (TextView) findViewById(R.id.textView11);
+        capacity = (TextView) findViewById(R.id.textView12);
+        day = (TextView) findViewById(R.id.textView10);
+
+        availableClasses = (ListView) findViewById(R.id.availableClasses);
+        classes = new ArrayList<>();
+
+        viewData();
+
+        availableClasses.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                GymClass sClass = (GymClass) availableClasses.getItemAtPosition(i);
+
+                selectedClass.setText(sClass.getName());
+                difficulty.setText(sClass.getDifficulty());
+                time.setText(sClass.getHours());
+                capacity.setText(sClass.getCapacity());
+                day.setText(sClass.getDay());
+                //Toast.makeText(EnrollingClassActivity.this, ""+text, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
+    protected void viewData() {
+        ClassDatabaseHelper databaseHelper = new ClassDatabaseHelper(EnrollingClassActivity.this);
+        GymClass temp;
+
+        ArrayList<String[]> getClasses = new ArrayList<>();
+
+        if(!databaseHelper.isEmpty()) {
+            getClasses = databaseHelper.getClasses("", "");
+
+            for(int i =0; i < getClasses.size(); i++){
+                temp = databaseHelper.findClass(getClasses.get(i)[0]);
+                classes.add(temp);
+            }
+            ClassListAdapted adapter = new ClassListAdapted(this, R.layout.adapter_view_layout, classes);
+            availableClasses.setAdapter(adapter);
+            databaseHelper.close();
+        }
+    }
+
+    public void enrolClass(View view){
+        UserDatabaseHelper udb = new UserDatabaseHelper(EnrollingClassActivity.this);
+        Intent intent = getIntent();
+        String userName = intent.getStringExtra("UserRole");
+
+        int id = ThreadLocalRandom.current().nextInt(0, 10000);
+
+
+        while (udb.doesClassExist(Integer.toString(id))) {
+            id = ThreadLocalRandom.current().nextInt(0, 10000);
+        }
+
+        udb.addUserToClass(userName, selectedClass.getText().toString(), Integer.toString(id));
+
+        Intent intentmyClassList = new Intent(EnrollingClassActivity.this, MyClassMember.class);
+        intentmyClassList.putExtra("UserRole", userName);
+        startActivity(intentmyClassList);
+
+    }
+
+
+}
