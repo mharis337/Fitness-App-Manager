@@ -21,6 +21,7 @@ public class UserDatabaseHelper extends SQLiteOpenHelper {
     public static final String user_classes = "USER_CLASSES_TABLE";
     public static final String COLUMN_ID = "ID";
     public static final String COLUMN_CLASSES = "CLASSES";
+    public static final String COLUMN_CLASS_DETAILS = "DETAILS";
 
 
 
@@ -37,7 +38,7 @@ public class UserDatabaseHelper extends SQLiteOpenHelper {
         String createStatements = "CREATE TABLE " + user_table + "(" + COLUMN_USERNAME + " TEXT PRIMARY KEY, " + COLUMN_FIRST_NAME + " TEXT, " + COLUMN_LAST_NAME + " TEXT, " + COLUMN_PASSWORD + " TEXT, " + COLUMN_ACCOUNT_TYPE + " TEXT)";
         db.execSQL(createStatements);
 
-        String createAnotherStatement = "CREATE TABLE " + user_classes + "(" + COLUMN_ID + " TEXT PRIMARY KEY, " + COLUMN_USERNAME + " TEXT, " + COLUMN_CLASSES + " TEXT)";
+        String createAnotherStatement = "CREATE TABLE " + user_classes + "(" + COLUMN_ID + " TEXT PRIMARY KEY, " + COLUMN_USERNAME + " TEXT, " + COLUMN_CLASS_DETAILS + " TEXT, " + COLUMN_CLASSES + " TEXT)";
         db.execSQL(createAnotherStatement);
     }
 
@@ -46,12 +47,13 @@ public class UserDatabaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public boolean addUserToClass(String username, String className, String id) {
+    public boolean addUserToClass(String username, String className, String classID, String id) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
         cv.put(COLUMN_USERNAME, username);
         cv.put(COLUMN_CLASSES, className);
+        cv.put(COLUMN_CLASS_DETAILS, classID);
         cv.put(COLUMN_ID, id);
 
         long insert = db.insert(user_classes, null, cv);
@@ -75,6 +77,31 @@ public class UserDatabaseHelper extends SQLiteOpenHelper {
             return true;
         }
 
+    }
+
+    public int numberClasses(String id){
+        String query = "SELECT * FROM " + user_classes + " WHERE " + COLUMN_CLASS_DETAILS + "='"+ id +"'";
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery(query, null);
+        return cursor.getCount();
+
+    }
+
+    public String[] classesUserIsTaking(String username){
+        String query = "SELECT * FROM " + user_classes + " WHERE " + COLUMN_USERNAME + "='"+ username +"'";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+
+
+        String[] classes = new String[cursor.getCount()];
+        cursor.moveToFirst();
+
+        for (int i = 0; i < cursor.getCount(); i++) {
+            classes[i] = cursor.getString(2);
+            cursor.moveToNext();
+        }
+        return classes;
     }
 
     public String[] getClasses(){

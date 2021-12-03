@@ -16,6 +16,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class EnrollingClassActivity extends AppCompatActivity {
     TextView selectedClass, difficulty, time, capacity, day;
+    int classId;
 
     ListView availableClasses;
     ArrayList<GymClass> classes;
@@ -50,7 +51,7 @@ public class EnrollingClassActivity extends AppCompatActivity {
                 time.setText(sClass.getHours());
                 capacity.setText(sClass.getCapacity());
                 day.setText(sClass.getDay());
-                //Toast.makeText(EnrollingClassActivity.this, ""+text, Toast.LENGTH_SHORT).show();
+                classId = sClass.getClassID();
             }
         });
     }
@@ -77,8 +78,10 @@ public class EnrollingClassActivity extends AppCompatActivity {
 
     public void enrolClass(View view){
         UserDatabaseHelper udb = new UserDatabaseHelper(EnrollingClassActivity.this);
+        ClassDatabaseHelper cdb = new ClassDatabaseHelper(EnrollingClassActivity.this);
         Intent intent = getIntent();
         String userName = intent.getStringExtra("UserRole");
+        GymClass temp;
 
         int id = ThreadLocalRandom.current().nextInt(0, 10000);
 
@@ -87,11 +90,17 @@ public class EnrollingClassActivity extends AppCompatActivity {
             id = ThreadLocalRandom.current().nextInt(0, 10000);
         }
 
-        udb.addUserToClass(userName, selectedClass.getText().toString(), Integer.toString(id));
+        temp = cdb.findClass(Integer.toString(classId));
 
-        Intent intentmyClassList = new Intent(EnrollingClassActivity.this, MyClassMember.class);
-        intentmyClassList.putExtra("UserRole", userName);
-        startActivity(intentmyClassList);
+        if(udb.numberClasses(Integer.toString(classId)) <= temp.getClassID()) {
+            udb.addUserToClass(userName, selectedClass.getText().toString(), Integer.toString(classId), Integer.toString(id));
+
+            Intent intentmyClassList = new Intent(EnrollingClassActivity.this, MyClassMember.class);
+            intentmyClassList.putExtra("UserRole", userName);
+            startActivity(intentmyClassList);
+        }else{
+            Toast.makeText(EnrollingClassActivity.this, " Class has reached capacity",  Toast.LENGTH_SHORT).show();
+        }
 
     }
 
