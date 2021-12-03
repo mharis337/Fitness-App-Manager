@@ -15,8 +15,8 @@ import java.util.ArrayList;
 
 public class MyClassMember extends AppCompatActivity {
     ListView myClassList;
-    ArrayList<String> listMyClasses;
-    ClassAdapter adapter;
+    ArrayList<GymClass> listMyClasses;
+    ClassListAdapted adapter;
     //ClassAdapter adapter;
 
     @Override
@@ -37,7 +37,20 @@ public class MyClassMember extends AppCompatActivity {
     }
 
     private void viewData() {
+        UserDatabaseHelper udb = new UserDatabaseHelper(MyClassMember.this);
+        ClassDatabaseHelper cdb = new ClassDatabaseHelper(MyClassMember.this);
+        Intent intent = getIntent();
+        String userName = intent.getStringExtra("UserRole");
+        GymClass temp;
+        listMyClasses = new ArrayList<>();
 
+
+        for(String a: udb.classesUserIsTaking(userName)){
+            temp = cdb.findClass(a);
+            listMyClasses.add(temp);
+        }
+        adapter = new ClassListAdapted(this, R.layout.adapter_view_layout, listMyClasses);
+        myClassList.setAdapter(adapter);
 
     }
 
