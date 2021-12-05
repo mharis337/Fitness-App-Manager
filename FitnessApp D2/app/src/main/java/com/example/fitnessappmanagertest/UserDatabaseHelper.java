@@ -24,8 +24,6 @@ public class UserDatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_CLASS_DETAILS = "DETAILS";
 
 
-
-
     //public static final String CLASS_TYPE_TABLE = "CLASS_TYPE_TABLE";
 
     public UserDatabaseHelper(@Nullable Context context) {
@@ -63,6 +61,13 @@ public class UserDatabaseHelper extends SQLiteOpenHelper {
         }else{
             return  true;
         }
+    }
+
+    public boolean removeUserFromClass(String username, String classId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        return db.delete(user_classes, COLUMN_USERNAME + " = '" +
+                username + "' AND " + COLUMN_CLASS_DETAILS + "  = " + classId, null) > 0;
     }
 
     public boolean doesClassExist(String id){

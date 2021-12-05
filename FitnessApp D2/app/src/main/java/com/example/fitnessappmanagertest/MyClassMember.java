@@ -25,20 +25,24 @@ public class MyClassMember extends AppCompatActivity {
         setContentView(R.layout.activity_my_class_member);
 
         myClassList = (ListView) findViewById(R.id.ListClasses);
-        viewData();
 
-        myClassList.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+
+       /* myClassList.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String text = myClassList.getItemAtPosition(i).toString();
                 Toast.makeText(MyClassMember.this, ""+text, Toast.LENGTH_SHORT).show();
             }
-        });
+        })*/
+
+        viewData();
     }
 
     private void viewData() {
         UserDatabaseHelper udb = new UserDatabaseHelper(MyClassMember.this);
         ClassDatabaseHelper cdb = new ClassDatabaseHelper(MyClassMember.this);
+
+
         Intent intent = getIntent();
         String userName = intent.getStringExtra("UserRole");
         GymClass temp;
@@ -49,8 +53,9 @@ public class MyClassMember extends AppCompatActivity {
             temp = cdb.findClass(a);
             listMyClasses.add(temp);
         }
-        adapter = new ClassListAdapted(this, R.layout.adapter_view_layout, listMyClasses);
+        adapter = new ClassListAdapted(this,this, R.layout.adapter_view_layout_with_leave, listMyClasses, udb, userName);
         myClassList.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
 
     }
 
