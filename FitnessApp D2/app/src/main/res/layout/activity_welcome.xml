@@ -15,6 +15,17 @@
         android:layout_centerInParent="true"
         android:contentDescription="@string/app_name"
         android:src="@drawable/fitlogo" />
+    <pl.droidsonroids.gif.GifImageView
+        android:id="@+id/gifImageView"
+        android:layout_width="225dp"
+        android:layout_height="169dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="88dp"
+        android:layout_marginBottom="71dp"
+        android:src="@drawable/appgiff"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 
