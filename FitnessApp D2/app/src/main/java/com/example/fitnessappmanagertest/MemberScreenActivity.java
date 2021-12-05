@@ -28,7 +28,8 @@ public class MemberScreenActivity extends AppCompatActivity {
     }
 
     public void startViewAll(View view){
-        // ADD Moha's VIEW ALL
+        Intent intentViewAllMember = new Intent(MemberScreenActivity.this, ViewAllMemberActivity.class);
+        startActivity(intentViewAllMember);
     }
 
     public void startMyClass(View view){

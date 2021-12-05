@@ -184,6 +184,39 @@ public class ClassDatabaseHelper extends SQLiteOpenHelper {
         return classNames;
     }
 
+    public String[] specificSearchDayAndName(String classDay, String className){
+        String query = "";
+        if(!classDay.isEmpty() && !className.isEmpty()) {
+            query = "SELECT * FROM " + user_table + " WHERE " + COLUMN_CLASS_NAME + " ='" + className + "'" + " AND " + COLUMN_INSTRUCTOR_NAME + "='" + classDay + "'";
+        }
+        else if(classDay.isEmpty() && !className.isEmpty()){
+            query = "SELECT * FROM " + user_table + " WHERE " + COLUMN_CLASS_NAME + " ='" + className + "'";
+        }
+        else if(!classDay.isEmpty() && className.isEmpty()){
+            query = "SELECT * FROM " + user_table + " WHERE " + COLUMN_DAY + " ='" + classDay + "'";
+        }
+        else{
+            query = "SELECT * FROM " + user_table;
+        }
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        String[] classNames = new String[cursor.getCount()];
+
+        cursor.moveToFirst();
+        for(int i = 0; i < cursor.getCount(); i++){
+            classNames[i] = "Class: "
+                    + cursor.getString(1)
+                    + "  |  Day: " + cursor.getString(5)
+                    + "  |  Cap:" + cursor.getString(7);
+
+            cursor.moveToNext();
+        }
+        cursor.close();
+        db.close();
+
+        return classNames;
+    }
+
 
     public String[] classOnThisDay(String day){
         String[] cName;

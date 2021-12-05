@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FitnessAppManager">
         <activity
+            android:name=".ViewAllMemberActivity"
+            android:exported="true" />
+        <activity
             android:name=".EnrollingClassActivity"
             android:exported="false" />
         <activity
