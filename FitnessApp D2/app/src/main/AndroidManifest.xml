@@ -11,40 +11,64 @@
         android:theme="@style/Theme.FitnessAppManager">
         <activity
             android:name=".ViewAllMemberActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:parentActivityName=".WelcomeScreenActivity"
+            android:label="My classes" />
         <activity
             android:name=".EnrollingClassActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".MyClassMember"
+            android:label="My classes" />
         <activity
             android:name=".MyClassMember"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".WelcomeScreenActivity"
+            android:label="Back" />
         <activity
             android:name=".MemberScreenActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".MainActivity"
+            android:label="Back" />
         <activity
             android:name=".AddingClassActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".MyClassInstructorActivity"
+            android:label="My classes" />
         <activity
             android:name=".EditingClassActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".MyClassInstructorActivity"
+            android:label="My classes" />
         <activity
             android:name=".MyClassInstructorActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".WelcomeScreenActivity"
+            android:label="Back" />
         <activity
             android:name=".ViewAllInstructorActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".WelcomeScreenActivity"
+            android:label="My classes" />
         <activity
             android:name=".InstructorScreenActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".MainActivity"
+            android:label="Back" />
         <activity
             android:name=".WelcomeScreenActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:parentActivityName=".MainActivity"
+            android:label="Back" />
         <activity
             android:name=".AdminActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:parentActivityName=".MainActivity"
+            android:label="Back" />
         <activity
             android:name=".SignUpActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:parentActivityName=".MainActivity"
+            android:label="Sign in" />
         <activity
             android:name=".WelcomeActivity"
             android:exported="true"

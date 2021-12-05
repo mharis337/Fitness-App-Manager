@@ -23,8 +23,6 @@ public class EnrollingClassActivity extends AppCompatActivity {
     //ClassListAdapted adapter;
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,7 +39,7 @@ public class EnrollingClassActivity extends AppCompatActivity {
 
         viewData();
 
-        availableClasses.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+        availableClasses.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 GymClass sClass = (GymClass) availableClasses.getItemAtPosition(i);
@@ -63,10 +61,10 @@ public class EnrollingClassActivity extends AppCompatActivity {
 
         ArrayList<String[]> getClasses = new ArrayList<>();
 
-        if(!databaseHelper.isEmpty()) {
+        if (!databaseHelper.isEmpty()) {
             getClasses = databaseHelper.getClasses("", "");
 
-            for(int i =0; i < getClasses.size(); i++){
+            for (int i = 0; i < getClasses.size(); i++) {
                 temp = databaseHelper.findClass(getClasses.get(i)[0]);
                 classes.add(temp);
             }
@@ -105,13 +103,15 @@ public class EnrollingClassActivity extends AppCompatActivity {
 //    }
 
 
-    public void enrolClass(View view){
+    public void enrolClass(View view) {
         UserDatabaseHelper udb = new UserDatabaseHelper(EnrollingClassActivity.this);
         ClassDatabaseHelper cdb = new ClassDatabaseHelper(EnrollingClassActivity.this);
         Intent intent = getIntent();
         String userName = intent.getStringExtra("UserRole");
         GymClass temp;
         int numOfMembers, cap;
+        boolean conflict;
+        String chosenTime, chosenDay;
 
         int id = ThreadLocalRandom.current().nextInt(0, 10000);
 
@@ -122,9 +122,45 @@ public class EnrollingClassActivity extends AppCompatActivity {
 
         temp = cdb.findClass(Integer.toString(classId));
         numOfMembers = temp.getNumOfMembers();
+        chosenTime = temp.getHours();
+        chosenDay = temp.getDay();
         cap = Integer.parseInt(temp.getCapacity());
+        conflict = false;
 
-        if(numOfMembers < cap) {
+        String[] userClassesIds = udb.classesUserIsTaking(userName); // Class id's that user is taking
+        GymClass[] userGymClasses = new GymClass[userClassesIds.length];
+        for (int i =0; i<userClassesIds.length; i++) {
+            userGymClasses[i] = cdb.findClass(userClassesIds[i]);
+        }
+
+        // Find class conflict, if any
+//        String[] classDays = new String[userGymClasses.length];
+//        String[] classHours = new String[userGymClasses.length];
+//        for (int i=0; i<userGymClasses.length; i++) {
+//            classDays[i] = userGymClasses[i].getDay();
+//        }
+//        for (int i=0; i<userGymClasses.length; i++) {
+//            classHours[i] = userGymClasses[i].getHours();
+//        }
+//
+//        for (int i=0; i<userGymClasses.length; i++) {
+//            if (chosenDay == classDays[i]) {
+//                if (chosenTime == classHours[i]) {
+//                    conflict = true;
+//                }
+//            }
+//        }
+        for (int i =0; i<userGymClasses.length; i++) {
+            if (userGymClasses[i].getDay().equals(chosenDay) && userGymClasses[i].getHours().equals(chosenTime)) {
+                conflict = true;
+            }
+        }
+
+        if (conflict) {
+            Toast.makeText(EnrollingClassActivity.this, "You can't have 2 classes at the same time and day.", Toast.LENGTH_SHORT).show();
+        } else if (numOfMembers >= cap) {
+            Toast.makeText(EnrollingClassActivity.this, " Class has reached capacity", Toast.LENGTH_SHORT).show();
+        } else {
             temp.setNumOfMembers(numOfMembers + 1);
             cdb.incrementClassNumOfMembs(temp);
             udb.addUserToClass(userName, selectedClass.getText().toString(), Integer.toString(classId), Integer.toString(id));
@@ -132,11 +168,8 @@ public class EnrollingClassActivity extends AppCompatActivity {
             Intent intentmyClassList = new Intent(EnrollingClassActivity.this, MyClassMember.class);
             intentmyClassList.putExtra("UserRole", userName);
             startActivity(intentmyClassList);
-        }else{
-            Toast.makeText(EnrollingClassActivity.this, " Class has reached capacity",  Toast.LENGTH_SHORT).show();
         }
-
     }
-
-
 }
+
+

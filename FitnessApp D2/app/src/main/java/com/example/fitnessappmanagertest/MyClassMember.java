@@ -53,7 +53,7 @@ public class MyClassMember extends AppCompatActivity {
             temp = cdb.findClass(a);
             listMyClasses.add(temp);
         }
-        adapter = new ClassListAdapted(this,this, R.layout.adapter_view_layout_with_leave, listMyClasses, udb, userName);
+        adapter = new ClassListAdapted(this,this, R.layout.adapter_view_layout_with_leave, listMyClasses, udb, userName, cdb);
         myClassList.setAdapter(adapter);
         adapter.notifyDataSetChanged();
 

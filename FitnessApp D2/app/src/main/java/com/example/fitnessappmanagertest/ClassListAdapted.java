@@ -21,7 +21,9 @@ public class ClassListAdapted extends ArrayAdapter<GymClass> {
     private Context mContext;
     int mResource;
     private UserDatabaseHelper db;
+    private ClassDatabaseHelper cdb;
     private String username;
+    private GymClass gym;
 
     private MyClassMember adapter;
     public ClassListAdapted(Context context, MyClassMember activity, int resource,ArrayList<GymClass> objects, UserDatabaseHelper db, String username) {
@@ -31,6 +33,17 @@ public class ClassListAdapted extends ArrayAdapter<GymClass> {
         this.db = db;
         this.username = username;
         this.adapter = activity;
+    }
+
+    public ClassListAdapted(Context context, MyClassMember activity, int resource,ArrayList<GymClass> objects, UserDatabaseHelper db, String username, ClassDatabaseHelper cdb) {
+        super(context, resource, objects);
+        mContext = context;
+        mResource = resource;
+        this.db = db;
+        this.username = username;
+        this.adapter = activity;
+        this.cdb = cdb;
+        this.gym = gym;
     }
 
     public ClassListAdapted(Context context, int resource,ArrayList<GymClass> objects) {
@@ -75,17 +88,21 @@ public class ClassListAdapted extends ArrayAdapter<GymClass> {
             buttonLeave.setOnClickListener(new AdapterView.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    GymClass gym = cdb.findClass(id);
+                    cdb.decrementClassNumOfMembs(gym);
+                    int numOfMembers = gym.getNumOfMembers();
+                    gym.setNumOfMembers(numOfMembers - 1);
+
+//                    String hours = gym.getHours();
                     db.removeUserFromClass(username, id);
                     adapter.recreate();
                    // adapter.notifyAll();
                     notifyDataSetChanged();
                    // adapter.notifyDataSetChanged(); //refresh
-
                 }
             });
         }
-
-
         return convertView;
     }
 }
+
