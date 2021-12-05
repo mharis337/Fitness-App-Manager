@@ -27,12 +27,12 @@ public class MemberScreenActivity extends AppCompatActivity {
 
     }
 
-    public void startViewAll(View view){
+    public void startViewAll(View view) {
         Intent intentViewAllMember = new Intent(MemberScreenActivity.this, ViewAllMemberActivity.class);
         startActivity(intentViewAllMember);
     }
 
-    public void startMyClass(View view){
+    public void startMyClass(View view) {
         Intent intentmyClassList = new Intent(MemberScreenActivity.this, MyClassMember.class);
         intentmyClassList.putExtra("UserRole", username);
         startActivity(intentmyClassList);

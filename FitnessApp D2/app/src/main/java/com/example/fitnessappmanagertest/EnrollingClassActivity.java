@@ -76,12 +76,42 @@ public class EnrollingClassActivity extends AppCompatActivity {
         }
     }
 
+//    public void enrolClass(View view){
+//        UserDatabaseHelper udb = new UserDatabaseHelper(EnrollingClassActivity.this);
+//        ClassDatabaseHelper cdb = new ClassDatabaseHelper(EnrollingClassActivity.this);
+//        Intent intent = getIntent();
+//        String userName = intent.getStringExtra("UserRole");
+//        GymClass temp;
+//
+//        int id = ThreadLocalRandom.current().nextInt(0, 10000);
+//
+//
+//        while (udb.doesClassExist(Integer.toString(id))) {
+//            id = ThreadLocalRandom.current().nextInt(0, 10000);
+//        }
+//
+//        temp = cdb.findClass(Integer.toString(classId));
+//
+//        if(udb.numberClasses(Integer.toString(classId)) < temp.getClassID()) {
+//            udb.addUserToClass(userName, selectedClass.getText().toString(), Integer.toString(classId), Integer.toString(id));
+//
+//            Intent intentmyClassList = new Intent(EnrollingClassActivity.this, MyClassMember.class);
+//            intentmyClassList.putExtra("UserRole", userName);
+//            startActivity(intentmyClassList);
+//        }else{
+//            Toast.makeText(EnrollingClassActivity.this, " Class has reached capacity",  Toast.LENGTH_SHORT).show();
+//        }
+//
+//    }
+
+
     public void enrolClass(View view){
         UserDatabaseHelper udb = new UserDatabaseHelper(EnrollingClassActivity.this);
         ClassDatabaseHelper cdb = new ClassDatabaseHelper(EnrollingClassActivity.this);
         Intent intent = getIntent();
         String userName = intent.getStringExtra("UserRole");
         GymClass temp;
+        int numOfMembers, cap;
 
         int id = ThreadLocalRandom.current().nextInt(0, 10000);
 
@@ -91,8 +121,12 @@ public class EnrollingClassActivity extends AppCompatActivity {
         }
 
         temp = cdb.findClass(Integer.toString(classId));
+        numOfMembers = temp.getNumOfMembers();
+        cap = Integer.parseInt(temp.getCapacity());
 
-        if(udb.numberClasses(Integer.toString(classId)) <= temp.getClassID()) {
+        if(numOfMembers < cap) {
+            temp.setNumOfMembers(numOfMembers + 1);
+            cdb.incrementClassNumOfMembs(temp);
             udb.addUserToClass(userName, selectedClass.getText().toString(), Integer.toString(classId), Integer.toString(id));
 
             Intent intentmyClassList = new Intent(EnrollingClassActivity.this, MyClassMember.class);

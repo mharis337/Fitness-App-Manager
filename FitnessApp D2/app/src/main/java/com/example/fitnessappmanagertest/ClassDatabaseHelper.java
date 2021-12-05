@@ -22,6 +22,9 @@ public class ClassDatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_DAY = "DAY";
     public static final String COLUMN_HOUR = "HOUR";
     public static final String COLUMN_CAPACITY = "CAPACITY";
+    public static final String COLUMN_NUM_OF_MEMBS = "NUM"; // New*
+
+
 
     //public static final String CLASS_TYPE_TABLE = "CLASS_TYPE_TABLE";
 
@@ -32,13 +35,16 @@ public class ClassDatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         Log.d("TEST", "TEST");
-        String createStatements = "CREATE TABLE " + user_table + "(" + COLUMN_CLASS_ID + " TEXT PRIMARY KEY, " + COLUMN_CLASS_NAME + " TEXT, " + COLUMN_INSTRUCTOR_NAME + " TEXT, " + COLUMN_DIFF + " TEXT, " + COLUMN_DESC + " TEXT, " + COLUMN_DAY + " TEXT, " + COLUMN_HOUR + " TEXT, " + COLUMN_CAPACITY + " TEXT)";
+        // New last argument in below sentence*
+        String createStatements = "CREATE TABLE " + user_table + "(" + COLUMN_CLASS_ID + " TEXT PRIMARY KEY, " + COLUMN_CLASS_NAME + " TEXT, " + COLUMN_INSTRUCTOR_NAME + " TEXT, " + COLUMN_DIFF + " TEXT, " + COLUMN_DESC + " TEXT, " + COLUMN_DAY + " TEXT, " + COLUMN_HOUR + " TEXT, " + COLUMN_CAPACITY + " TEXT, " + COLUMN_NUM_OF_MEMBS +" TEXT)";
 
         db.execSQL(createStatements);
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
+    public void onUpgrade(SQLiteDatabase db, int i, int i1) {
+        db.execSQL("DROP TABLE IF EXISTS " + user_table);
+        onCreate(db);
 
     }
 
@@ -71,6 +77,7 @@ public class ClassDatabaseHelper extends SQLiteOpenHelper {
         cv.put(COLUMN_CAPACITY, name.getCapacity());
         cv.put(COLUMN_DAY, name.getDay());
         cv.put(COLUMN_HOUR, name.getHours());
+        cv.put(COLUMN_NUM_OF_MEMBS, (name.getNumOfMembers()) + "");
 
         long insert = db.insert(user_table, null, cv);
 
@@ -95,6 +102,43 @@ public class ClassDatabaseHelper extends SQLiteOpenHelper {
         cv.put(COLUMN_CAPACITY, name.getCapacity());
         cv.put(COLUMN_DAY, name.getDay());
         cv.put(COLUMN_HOUR, name.getHours());
+        cv.put(COLUMN_NUM_OF_MEMBS, (name.getNumOfMembers()) + "");
+
+        return (db.update(user_table, cv, COLUMN_CLASS_ID + " = ?", new String[]{ String.valueOf(name.getClassID())}) != -1);
+    }
+
+    // New*
+    public boolean incrementClassNumOfMembs(GymClass name) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        cv.put(COLUMN_CLASS_ID, name.getClassID());
+        cv.put(COLUMN_INSTRUCTOR_NAME, name.getInstructor());
+        cv.put(COLUMN_DESC, name.getDesc());
+        cv.put(COLUMN_DIFF, name.getDifficulty());
+        cv.put(COLUMN_CLASS_NAME, name.getName());
+        cv.put(COLUMN_CAPACITY, name.getCapacity());
+        cv.put(COLUMN_DAY, name.getDay());
+        cv.put(COLUMN_HOUR, name.getHours());
+        cv.put(COLUMN_NUM_OF_MEMBS, (name.getNumOfMembers() + 1) + "");
+
+        return (db.update(user_table, cv, COLUMN_CLASS_ID + " = ?", new String[]{ String.valueOf(name.getClassID())}) != -1);
+    }
+
+    // New*
+    public boolean decrementClassNumOfMembs(GymClass name) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        cv.put(COLUMN_CLASS_ID, name.getClassID());
+        cv.put(COLUMN_INSTRUCTOR_NAME, name.getInstructor());
+        cv.put(COLUMN_DESC, name.getDesc());
+        cv.put(COLUMN_DIFF, name.getDifficulty());
+        cv.put(COLUMN_CLASS_NAME, name.getName());
+        cv.put(COLUMN_CAPACITY, name.getCapacity());
+        cv.put(COLUMN_DAY, name.getDay());
+        cv.put(COLUMN_HOUR, name.getHours());
+        cv.put(COLUMN_NUM_OF_MEMBS, (name.getNumOfMembers() - 1) + "");
 
         return (db.update(user_table, cv, COLUMN_CLASS_ID + " = ?", new String[]{ String.valueOf(name.getClassID())}) != -1);
     }
@@ -300,7 +344,7 @@ public class ClassDatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(query, null);
         cursor.moveToFirst();
-        temp = new GymClass(cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7));
+        temp = new GymClass(cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7),  cursor.getString(8));
         temp.setClassID(Integer.parseInt(cursor.getString(0)));
 
         return temp;

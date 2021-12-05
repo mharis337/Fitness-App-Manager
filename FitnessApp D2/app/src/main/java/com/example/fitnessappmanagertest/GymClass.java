@@ -4,7 +4,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class GymClass {
     private String difficulty, name, day, hours, instructor, desc, capacity;
-    private int classID;
+    private int classID, numOfMembers;
 
     public GymClass(String name, String desc){
         this.name = name;
@@ -26,6 +26,18 @@ public class GymClass {
         this.instructor = instructor;
         this.desc = desc;
         this.classID = 0;
+        this.numOfMembers = 0;
+    }
+    public GymClass(String name, String instructor, String difficulty, String desc, String day, String hours, String capacity, String numOfMembers) {
+        this.difficulty = difficulty;
+        this.name = name;
+        this.day = day;
+        this.hours = hours;
+        this.capacity = capacity;
+        this.instructor = instructor;
+        this.desc = desc;
+        this.classID = 0;
+        this.numOfMembers = Integer.parseInt(numOfMembers);
     }
 
     public String getDesc() {
@@ -90,6 +102,10 @@ public class GymClass {
     public void setClassID(int classID) {
         this.classID = classID;
     }
+
+    public int getNumOfMembers() { return numOfMembers; }
+
+    public void setNumOfMembers(int numOfMembers) { this.numOfMembers = numOfMembers; }
 
     @Override
     public String toString() {
